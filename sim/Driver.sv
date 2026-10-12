@@ -7,13 +7,14 @@ class Driver;
 
   Driver_cbs cbs[$];
 
-  mailbox #(BaseTR) gen2drv;
+  mailbox #(Transaction) gen2drv;
 
   mailbox #(BaseTR) agent2drv;
 
-  function new(mailbox#(BaseTR) gen2drv, mailbox#(BaseTR) agent2drv);
+  function new(mailbox#(Transaction) gen2drv, mailbox#(BaseTR) agent2drv);
 
     this.gen2drv   = gen2drv;
+
     this.agent2drv = agent2drv;
 
   endfunction
@@ -24,29 +25,29 @@ class Driver;
 
   virtual task run();
 
-    bit drop;
+    // bit drop;
 
-    BaseTR tr;
+    // BaseTR tr;
 
-    forever begin
+    // forever begin
 
-      drop = 0;
+    //   drop = 0;
 
-      agent2drv.get(tr);
+    //   agent2drv.get(tr);
 
-      foreach (cbs[i]) begin
-        cbs[i].pre_tx(tr, drop);
-      end
+    //   foreach (cbs[i]) begin
+    //     cbs[i].pre_tx(tr, drop);
+    //   end
 
-      if (drop) continue;
+    //   if (drop) continue;
 
-      transmit(tr);
+    //   transmit(tr);
 
-      foreach (cbs[i]) begin
-        cbs[i].post_tx(tr);
-      end
+    //   foreach (cbs[i]) begin
+    //     cbs[i].post_tx(tr);
+    //   end
 
-    end
+    // end
 
   endtask
 

@@ -5,42 +5,41 @@
 `include "Generator.sv"
 `include "Driver.sv"
 
-// class Environment;
+class Environment;
 
-//   Generator gen;
-//   Driver drv;
+  Generator #(Transaction) gen;
 
-//   mailbox #(BaseTR) gen2drv;
+  Driver drv;
 
-//   mailbox #(BaseTR) agent2drv;
+  mailbox #(Transaction) gen2drv;
 
-//   virtual function void build(BaseTR blueprint);
+  mailbox #(BaseTR) agent2drv;
 
-//     this.gen2drv = new();
+  virtual function void build();
 
-//     this.agent2drv = new();
+    this.gen2drv = new();
 
-//     this.gen = new(this.gen2drv, blueprint);
+    this.agent2drv = new();
 
-//     this.drv = new(this.gen2drv, agent2drv);
+    this.gen = new(this.gen2drv);
 
-//   endfunction
+    this.drv = new(this.gen2drv, agent2drv);
 
-//   // se lo cambiaste aqui
+  endfunction
 
-//   virtual task run();
+  virtual task run();
 
-//     fork
-//       gen.run();
-//       drv.run();
-//     join
+    fork
+      gen.run();
+      drv.run();
+    join
 
-//   endtask
+  endtask
 
-//   virtual task wrap_up();
-//     // call scoreboard for report
-//   endtask
+  virtual task wrap_up();
+    // call scoreboard for report
+  endtask
 
-// endclass
+endclass
 
 `endif
