@@ -5,19 +5,34 @@
 
 module automatic test_stack;
 
-  real b;
+  Generator #(Transaction) gen;
 
-  Stack #(real) a;
+  mailbox #(Transaction)   gen2drv;
 
   initial begin
 
-    a = new();
+    gen2drv = new(1);
 
-    for (int i = 0; i < a.SIZE; ++i) a.push(real'(i));
+    gen = new(gen2drv);
 
-    for (int i = 0; i < a.SIZE; ++i) $display("%f", a.pop());
+    fork
+      // genera varios mensajes y los mando por el mailbox yo tengo que recibirlos por el mailbox usando get()
+      gen.run();
 
+      repeat (20) begin
+
+        // bloque secuencial
+
+        Transaction tr;
+
+        gen2drv.get(tr);
+
+        $display("%p", tr);
+
+      end
+
+
+    join
   end
-
 
 endmodule

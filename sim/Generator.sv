@@ -4,32 +4,37 @@
 `include "Utils.sv"
 `include "Transaction.sv"
 
-class Generator;
+class Generator #(
+    type T = BaseTR
+);
 
-  mailbox #(BaseTR) gen2drv;
-  BaseTR blueprint;
+  mailbox #(Transaction) gen2drv;
+  T blueprint;
 
-  function new(mailbox#(BaseTR) gen2drv, BaseTR blueprint);
+  function new(mailbox#(Transaction) gen2drv);
+
     this.gen2drv   = gen2drv;
-    this.blueprint = blueprint;
+
+    this.blueprint = new();
+
+    $display("Blueprint type: %s", $typename(this.blueprint));
+
   endfunction
 
   virtual task run(int num_tr = 10);
 
-    BaseTR copy;
+    T other;
 
     repeat (num_tr) begin
 
-      // es polimorphica
-      `SV_RAND_CHECK(blueprint.randomize());
+      `SV_RAND_CHECK(blueprint.randomize);
 
-      copy = blueprint.copy();
+      // es de tipo base necesitas regresarlo al tipo donde era
+      $cast(other, blueprint.copy());
 
-      $write("GEN: ");
+      $display("Other type: %s", $typename(other));
 
-      copy.display();
-
-      gen2drv.put(copy);
+      gen2drv.put(other);
 
     end
 
