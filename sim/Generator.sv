@@ -4,9 +4,14 @@
 `include "Utils.sv"
 `include "Transaction.sv"
 
+virtual class GenBase;
+  pure virtual task run(int num_tr = 10);
+endclass
+
+
 class Generator #(
     type T = BaseTR
-);
+) extends GenBase;
 
   mailbox #(Transaction) gen2drv;
   T blueprint;
@@ -17,7 +22,7 @@ class Generator #(
 
     this.blueprint = new();
 
-    $display("Blueprint type: %s", $typename(this.blueprint));
+    // $display("Blueprint type: %s", $typename(this.blueprint));
 
   endfunction
 

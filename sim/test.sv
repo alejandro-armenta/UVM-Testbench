@@ -3,36 +3,44 @@
 `include "Driver_Callbacks.sv"
 `include "Stack.sv"
 
-module automatic test_stack;
 
-  Generator #(Transaction) gen;
+module automatic test;
 
-  mailbox #(Transaction)   gen2drv;
+  mailbox #(Transaction) gen2drv;
+
+  GenBase gen_queue[$];
+
+  Generator #(Transaction) a;
+
+  Generator #(Nearby) b;
+
+  Generator #(BadTransaction) c;
 
   initial begin
 
-    gen2drv = new(1);
+    gen2drv = new();
 
-    gen = new(gen2drv);
+    a = new(gen2drv);
 
-    fork
-      // genera varios mensajes y los mando por el mailbox yo tengo que recibirlos por el mailbox usando get()
-      gen.run();
+    b = new(gen2drv);
 
-      repeat (20) begin
+    c = new(gen2drv);
 
-        // bloque secuencial
+    gen_queue.push_back(a);
 
-        Transaction tr;
+    gen_queue.push_back(b);
 
-        gen2drv.get(tr);
+    gen_queue.push_back(c);
 
-        $display("%p", tr);
+    foreach (gen_queue[i]) begin
+      automatic int e = i;
+      fork
+        gen_queue[e].run();
+      join
+    end
 
-      end
+    // tengo 3 generadores y tienen el mismo mailbox
 
-
-    join
   end
-
 endmodule
+
