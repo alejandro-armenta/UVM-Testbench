@@ -2,44 +2,19 @@
 `include "Environment.sv"
 `include "Driver_Callbacks.sv"
 `include "Stack.sv"
-
+`include "config_database.sv"
 
 module automatic test;
 
-  mailbox #(Transaction) gen2drv;
-
-  GenBase gen_queue[$];
-
-  Generator #(Transaction) a;
-
-  Generator #(Nearby) b;
-
-  Generator #(BadTransaction) c;
+  config_db #(int) a;
 
   initial begin
 
-    gen2drv = new();
+    a = new();
 
-    a = new(gen2drv);
+    a.set("ale", 2);
 
-    b = new(gen2drv);
-
-    c = new(gen2drv);
-
-    gen_queue.push_back(a);
-
-    gen_queue.push_back(b);
-
-    gen_queue.push_back(c);
-
-    foreach (gen_queue[i]) begin
-      automatic int e = i;
-      fork
-        gen_queue[e].run();
-      join
-    end
-
-    // tengo 3 generadores y tienen el mismo mailbox
+    $display("%p", a);
 
   end
 endmodule
