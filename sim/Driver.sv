@@ -3,6 +3,18 @@
 
 `include "Transaction.sv"
 
+
+// como estan separados tienes que mandar informacion a otro proceso
+// no me puedo conectar con memoria shared.
+
+// a transactor is designed for a single source.
+
+// use callbacks
+
+// tlm analysis port for connecting monitors to scoreboards 
+// a mailbox with an optional consumer 
+
+
 class Driver;
 
   Driver_cbs cbs[$];

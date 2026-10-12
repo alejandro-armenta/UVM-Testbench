@@ -8,16 +8,21 @@ module automatic test;
 
   Transaction tr;
 
+  Scoreboard  scb;
+
   initial begin
     env = new();
 
+    scb = new();
+
     tr  = new();
+
     env.build(tr);
 
     begin
 
-      Driver_cbs_drop dcd = new();
-      env.drv.cbs.push_back(dcd);
+      Driver_cbs_scoreboard dcs = new(scb);
+      env.drv.cbs.push_back(dcs);
 
     end
 
