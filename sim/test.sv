@@ -1,35 +1,23 @@
 `include "Transaction.sv"
 `include "Environment.sv"
 `include "Driver_Callbacks.sv"
+`include "Stack.sv"
 
-module automatic test;
+module automatic test_stack;
 
-  Environment env;
+  real b;
 
-  Transaction tr;
-
-  Scoreboard  scb;
+  Stack #(real) a;
 
   initial begin
-    env = new();
 
-    scb = new();
+    a = new();
 
-    tr  = new();
+    for (int i = 0; i < a.SIZE; ++i) a.push(real'(i));
 
-    env.build(tr);
-
-    begin
-
-      Driver_cbs_scoreboard dcs = new(scb);
-      env.drv.cbs.push_back(dcs);
-
-    end
-
-    env.run();
-
-    env.wrap_up();
+    for (int i = 0; i < a.SIZE; ++i) $display("%f", a.pop());
 
   end
+
 
 endmodule

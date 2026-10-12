@@ -1,6 +1,5 @@
 module top;
 
-  test a ();
-  // test_bad a ();
+  test_stack a ();
 
 endmodule

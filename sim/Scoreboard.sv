@@ -1,3 +1,6 @@
+`ifndef SCOREBOARD_SV
+`define SCOREBOARD_SV
+
 `include "Transaction.sv"
 
 class Scoreboard;
@@ -26,3 +29,5 @@ class Scoreboard;
   endfunction
 
 endclass
+
+`endif

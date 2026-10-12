@@ -1,17 +1,24 @@
 
-class IntStack;
+`ifndef STACK_SV
+`define STACK_SV
+
+class Stack #(
+    type T = int
+);
 
   parameter int SIZE = 100;
-  local int stack[SIZE];
 
+  local T   stack[SIZE];
   local int top;
 
-  function void push(int i);
+  function void push(T i);
     stack[top++] = i;
   endfunction
 
-  function int pop();
-    // top--;
+  function T pop();
     return stack[--top];
   endfunction
+
 endclass
+
+`endif
