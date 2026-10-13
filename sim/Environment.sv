@@ -6,15 +6,17 @@
 `include "Generator.sv"
 `include "Driver.sv"
 
-class Environment;
+class Environment #(
+    type T = Transaction
+);
 
-  Generator #(Transaction) gen;
+  Generator #(T) gen;
 
-  Driver drv;
+  Driver #(T) drv;
 
-  mailbox #(Transaction) gen2drv;
+  mailbox #(T) gen2drv;
 
-  mailbox #(BaseTR) agent2drv;
+  mailbox #(T) agent2drv;
 
   virtual function void build();
 

@@ -13,16 +13,14 @@ class Generator #(
     type T = BaseTR
 ) extends GenBase;
 
-  mailbox #(Transaction) gen2drv;
+  mailbox #(T) gen2drv;
   T blueprint;
 
-  function new(mailbox#(Transaction) gen2drv);
+  function new(mailbox#(T) gen2drv);
 
     this.gen2drv   = gen2drv;
 
     this.blueprint = new();
-
-    // $display("Blueprint type: %s", $typename(this.blueprint));
 
   endfunction
 

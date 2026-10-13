@@ -8,13 +8,11 @@
 
 module automatic test;
 
-  TestBase b;
+  TestComponent b;
 
   initial begin
 
-    b = TestRegistry::get_test();
-
-    b.run_test();
+    TestRegistry::display();
 
   end
 

@@ -3,15 +3,17 @@
 
 `include "Transaction.sv"
 
-class Driver;
+class Driver #(
+    type T = BaseTR
+);
 
   Driver_cbs cbs[$];
 
-  mailbox #(Transaction) gen2drv;
+  mailbox #(T) gen2drv;
 
-  mailbox #(BaseTR) agent2drv;
+  mailbox #(T) agent2drv;
 
-  function new(mailbox#(Transaction) gen2drv, mailbox#(BaseTR) agent2drv);
+  function new(mailbox#(T) gen2drv, mailbox#(T) agent2drv);
 
     this.gen2drv   = gen2drv;
 
@@ -19,7 +21,7 @@ class Driver;
 
   endfunction
 
-  virtual task transmit(BaseTR tr);
+  virtual task transmit(T tr);
 
   endtask
 

@@ -2,23 +2,39 @@
 `ifndef TEST_REGISTRY_SV
 `define TEST_REGISTRY_SV
 
+`include "Transaction.sv"
 
 typedef class TestRegistry;
 
-
-virtual class TestBase;
-
-  Environment env;
+virtual class TestComponent;
 
   pure virtual task run_test();
 
+endclass
+
+class TestBase #(
+
+    type T = Transaction
+
+) extends TestComponent;
+
+  Environment #(T) env;
+
   function new();
+
     env = new();
+
   endfunction
+
+  virtual task run_test();
+
+  endtask
 
 endclass
 
-class TestSimple extends TestBase;
+class TestSimple #(
+    type T = Transaction
+) extends TestBase #(T);
 
   function new();
 
@@ -40,19 +56,46 @@ class TestSimple extends TestBase;
 
 endclass
 
-TestSimple TestSimple_handle = new();
+TestSimple #(Transaction) TestSimple_handle = new();
+
+class TestBad #(
+    type T = Transaction
+) extends TestBase #(T);
+
+  function new();
+
+    super.new();
+
+    TestRegistry::register("TestBad", this);
+
+  endfunction
+
+  virtual task run_test();
+
+    $display("%m");
+
+    env.build();
+    env.run();
+    env.wrap_up();
+
+  endtask
+
+
+endclass
+
+TestBad #(BadTransaction) TestBad_Handle = new();
 
 class TestRegistry;
 
-  static TestBase registry[string];
+  static TestComponent registry[string];
 
-  static function void register(string name, TestBase t);
+  static function void register(string name, TestComponent t);
 
     registry[name] = t;
 
   endfunction
 
-  static function TestBase get_test();
+  static function TestComponent get_test();
 
     string name;
 
@@ -62,6 +105,12 @@ class TestRegistry;
     end
 
     return registry[name];
+
+  endfunction
+
+  static function void display();
+
+    foreach (registry[i]) $display("key=%s value=%p", i, registry[i]);
 
   endfunction
 
