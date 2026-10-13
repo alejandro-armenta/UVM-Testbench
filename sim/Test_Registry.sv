@@ -1,3 +1,11 @@
+
+`ifndef TEST_REGISTRY_SV
+`define TEST_REGISTRY_SV
+
+
+typedef class TestRegistry;
+
+
 virtual class TestBase;
 
   Environment env;
@@ -10,16 +18,41 @@ virtual class TestBase;
 
 endclass
 
+class TestSimple extends TestBase;
+
+  function new();
+
+    super.new();
+
+    TestRegistry::register("TestSimple", this);
+
+  endfunction
+
+  virtual task run_test();
+
+    $display("%m");
+
+    env.build();
+    env.run();
+    env.wrap_up();
+
+  endtask
+
+endclass
+
+TestSimple TestSimple_handle = new();
 
 class TestRegistry;
 
-  TestBase registry[string];
+  static TestBase registry[string];
 
-  function void register(string name, TestBase t);
+  static function void register(string name, TestBase t);
+
     registry[name] = t;
+
   endfunction
 
-  function TestBase get_test();
+  static function TestBase get_test();
 
     string name;
 
@@ -33,3 +66,6 @@ class TestRegistry;
   endfunction
 
 endclass
+
+
+`endif

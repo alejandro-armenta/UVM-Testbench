@@ -2,16 +2,21 @@
 `include "Environment.sv"
 `include "Driver_Callbacks.sv"
 `include "Stack.sv"
-`include "config_database.sv"
-
+`include "Config_Database.sv"
+`include "Test_Registry.sv"
 
 
 module automatic test;
 
-  // TestBase a;
+  TestBase b;
 
   initial begin
-    // a = new();
+
+    b = TestRegistry::get_test();
+
+    b.run_test();
+
   end
+
 endmodule
 

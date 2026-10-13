@@ -1,12 +1,9 @@
 set_param messaging.defaultLimit 0  
 
-# set dynamic_seed [expr {int(rand() * 1000000)}]
-
 set dynamic_seed 54321
 
 puts "Selected random simulation seed: $dynamic_seed"
 
-# 2. Assign the dynamic seed to the file-set property (for GUI/Vivado runs)
 set_property -name {xsim.simulate.xsim.more_options} -value "-sv_seed $dynamic_seed" -objects [get_filesets sim_1]
 
 set TESTBENCH_TOP "ale_lib.top" 
@@ -14,8 +11,6 @@ set TESTBENCH_TOP "ale_lib.top"
 set SNAPSHOT_NAME "snapshot"
 
 set OUTPUT_DIR "./build"  
-
-set UVM_TEST [if {[info exists ::env(UVM_TESTNAME)]} {set ::env(UVM_TESTNAME)} {format "my_first_uvm_test"}]
 
 if {[file exists $OUTPUT_DIR]} {
     file delete -force $OUTPUT_DIR
@@ -43,7 +38,7 @@ proc compile_library {lib_name files} {
     # Run the compiler via the project file
     puts "Compiling library $lib_name with [llength $files] files..."
     
-    if {[catch { exec xvlog -work $lib_name -L uvm -prj $prj_filename } log_out]} {
+    if {[catch { exec xvlog -work $lib_name -prj $prj_filename } log_out]} {
         puts $log_out
         file delete -force $prj_filename
         exit 1
@@ -64,7 +59,7 @@ compile_library "ale_lib" $all_files
 
 puts "Elaborating design top: $TESTBENCH_TOP into snapshot: $SNAPSHOT_NAME"
 
-set elab_output [exec xelab -debug all -L uvm -L ale_lib -top $TESTBENCH_TOP -snapshot $SNAPSHOT_NAME]  
+set elab_output [exec xelab -debug all -L ale_lib -top $TESTBENCH_TOP -snapshot $SNAPSHOT_NAME]  
 
 set output_lines [split $elab_output "\n"]  
 
