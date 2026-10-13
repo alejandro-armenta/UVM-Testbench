@@ -12,7 +12,11 @@ module automatic test;
 
   initial begin
 
-    TestRegistry::display();
+    b = TestRegistry::get_test();
+
+    b.run_test();
+
+    // TestRegistry::display();
 
   end
 
