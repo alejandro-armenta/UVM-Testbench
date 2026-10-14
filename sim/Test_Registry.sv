@@ -80,7 +80,6 @@ class TestBad #(
 
   endtask
 
-
 endclass
 
 TestBad #(BadTransaction) TestBad_Handle = new();
