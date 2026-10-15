@@ -160,6 +160,12 @@ class TestBase extends svm_component;
 
     $display("%m");
 
+    env.build();
+
+    env.run();
+
+    env.wrap_up();
+
   endtask
 
 endclass
