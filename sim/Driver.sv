@@ -1,56 +1,53 @@
 `ifndef DRIVER_SV
 `define DRIVER_SV
 
-`include "Transaction.sv"
-`include "Driver_Callbacks.sv"
+class Driver;
 
-class Driver #(
-    type T = BaseTR
-);
+  virtual X_if.TB xi;
 
-  Driver_cbs cbs[$];
+  int id;
 
-  mailbox #(T) gen2drv;
+  function new(virtual X_if.TB xi, int id);
 
-  mailbox #(T) agent2drv;
-
-  function new(mailbox#(T) gen2drv, mailbox#(T) agent2drv);
-
-    this.gen2drv   = gen2drv;
-
-    this.agent2drv = agent2drv;
+    this.xi = xi;
+    this.id = id;
 
   endfunction
 
-  virtual task transmit(T tr);
+  task reset();
+
+    $display("Start Reset");
+
+    xi.reset   <= 1;
+    xi.cb.load <= 0;
+    xi.cb.din  <= '0;
+
+    @(xi.cb) xi.reset <= 0;
+
+    @(xi.cb) xi.reset <= 1;
+
+    $display("End Reset");
 
   endtask
 
-  virtual task run();
+  task load_op();
 
-    // bit drop;
+    // wait for one clocking block event 
 
-    // BaseTR tr;
+    $display("Start load");
 
-    // forever begin
+    @(xi.cb);
 
-    //   drop = 0;
+    xi.cb.load <= 1;
+    xi.cb.din  <= id + 10;
 
-    //   agent2drv.get(tr);
+    @(xi.cb);
 
-    //   foreach (cbs[i]) begin
-    //     cbs[i].pre_tx(tr, drop);
-    //   end
+    xi.cb.load <= 0;
 
-    //   if (drop) continue;
+    repeat (5) @(xi.cb);
 
-    //   transmit(tr);
-
-    //   foreach (cbs[i]) begin
-    //     cbs[i].post_tx(tr);
-    //   end
-
-    // end
+    $display("End load");
 
   endtask
 

@@ -1,20 +1,40 @@
-`include "UVM_Object.sv"
+`include "Driver.sv"
 
-// el proxy se instancia staticamente 
+module automatic test #(
+    NUM_XI = 2
+);
 
-module automatic test;
+  virtual X_if.TB vxi[NUM_XI];
+
+  Driver driver[];
 
   initial begin
 
-    svm_component test_obj;
+    // estas interfaces son las de arriba
 
-    svm_factory::display();
+    vxi = top.xi;
 
-    // apenas aqui se instancia mi test
-    test_obj = svm_factory::get_test();
+    driver = new[NUM_XI];
 
-    test_obj.run_test();
+    foreach (driver[i]) driver[i] = new(vxi[i], i);
+
+    foreach (driver[i]) begin
+
+      automatic int j = i;
+
+      // cada driver tiene su interface a el dut?
+
+      fork
+        begin
+          driver[j].reset();
+          driver[j].load_op();
+        end
+      join_none
+
+    end
+
+    repeat (10) @(vxi[0].cb);
+
 
   end
 endmodule
-
