@@ -136,6 +136,7 @@ class svm_factory;
 endclass
 
 // typedef define un tipo y ese se instancia estaticamente
+
 `define svm_component_utils(T) \
 typedef svm_component_registry#(T, `"T`") type_id;\
 virtual function string get_type_name();\
