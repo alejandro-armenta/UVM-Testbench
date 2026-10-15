@@ -148,6 +148,7 @@ class TestBase extends svm_component;
 
   Environment env;
 
+  // this instances an object because of specialization
   `svm_component_utils(TestBase)
 
   function new(string name);
