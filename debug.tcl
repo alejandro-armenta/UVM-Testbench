@@ -16,7 +16,7 @@ cd $OUTPUT_DIR
 
 puts "Launching Vivado Simulator in batch mode..."
 
-if {[catch { exec xsim $SNAPSHOT_NAME -R -sv_seed $dynamic_seed -testplusarg TESTNAME=TestBad } sim_out]} {
+if {[catch { exec xsim $SNAPSHOT_NAME -R -sv_seed $dynamic_seed -testplusarg SVM_TESTNAME=TestBase } sim_out]} {
     puts $sim_out
     error "ERROR: Simulation failed or exited with an error."
 } else {

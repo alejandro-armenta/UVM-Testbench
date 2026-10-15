@@ -2,6 +2,7 @@
 `define DRIVER_SV
 
 `include "Transaction.sv"
+`include "Driver_Callbacks.sv"
 
 class Driver #(
     type T = BaseTR

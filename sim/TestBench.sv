@@ -1,24 +1,20 @@
-`include "Transaction.sv"
-`include "Environment.sv"
-`include "Driver_Callbacks.sv"
-`include "Stack.sv"
-`include "Config_Database.sv"
-`include "Test_Registry.sv"
+`include "UVM_Object.sv"
 
+// el proxy se instancia staticamente 
 
 module automatic test;
 
-  TestComponent b;
-
   initial begin
 
-    b = TestRegistry::get_test();
+    svm_component test_obj;
 
-    b.run_test();
+    svm_factory::display();
 
-    // TestRegistry::display();
+    // apenas aqui se instancia mi test
+    test_obj = svm_factory::get_test();
+
+    test_obj.run_test();
 
   end
-
 endmodule
 
