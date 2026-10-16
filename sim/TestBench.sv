@@ -1,5 +1,6 @@
 `include "Driver.sv"
 
+// este es el problema tiene que ser un program block para que funcione
 program automatic test #(
     parameter NUM_XI = 2
 );
@@ -10,12 +11,15 @@ program automatic test #(
 
   initial begin
 
+    // estas son las interfaces se asigna una a cada driver para manejar un dut
     vxi = top.xi;
 
+    // aqui hay una doble instanciacion
     driver = new[NUM_XI];
 
     foreach (driver[i]) driver[i] = new(vxi[i], i);
 
+    // cada uno controla un dut
     foreach (driver[i]) begin
       automatic int j = i;
       fork

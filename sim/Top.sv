@@ -7,16 +7,8 @@ module top;
   bit clk;
 
   initial begin
-
-    clk = '0;
-
-    forever begin
-
-      #5;
-
-      clk = ~clk;
-
-    end
+    clk <= '0;
+    forever #5 clk = ~clk;
   end
 
   X_if xi[NUM_XI] (clk);

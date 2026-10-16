@@ -18,15 +18,13 @@ class Driver;
 
     $display("%t %d Start Reset", $time, id);
 
-    xi.reset = 0;
+    xi.reset   <= 1;
     xi.cb.load <= 0;
     xi.cb.din  <= '0;
 
-    repeat (3) @(xi.cb);
+    @(xi.cb) xi.reset = 0;
 
-    xi.reset = 1;
-
-    @(xi.cb);
+    @(xi.cb) xi.reset = 1;
 
     $display("%t %d End Reset", $time, id);
 
@@ -36,9 +34,7 @@ class Driver;
 
     $display("%t %d Start Load", $time, id);
 
-    wait (xi.reset == 1'b1);
-
-    @(xi.cb);
+    repeat (3) @(xi.cb);
 
     xi.cb.load <= 1;
     xi.cb.din  <= id + 10;
