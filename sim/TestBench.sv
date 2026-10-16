@@ -2,20 +2,22 @@
 `ifndef TESTBENCH_SV
 `define TESTBENCH_SV
 
-`include "Top.sv"
+// `include "Top.sv"
 `include "Driver.sv"
 
-program automatic test (
-    X_if xi[NUM_XI]
+program automatic test #(
+    parameter NUM_XI = 2,
+    parameter BIT_WIDTH = 8
 );
 
-  vx_if vxi[NUM_XI];
+  virtual X_if #(.BIT_WIDTH(BIT_WIDTH)).TB vxi[NUM_XI];
 
-  Driver driver[];
+  Driver #(.BIT_WIDTH(BIT_WIDTH)) driver[];
 
   initial begin
 
-    vxi = xi;
+    // todo you are here
+    vxi = top.xi;
 
     driver = new[NUM_XI];
 

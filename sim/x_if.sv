@@ -1,10 +1,12 @@
 `timescale 1ns / 1ps
 
-interface X_if (
+interface X_if #(
+    parameter BIT_WIDTH = 8
+) (
     input logic clk
 );
 
-  logic [7:0] din, dout;
+  logic [BIT_WIDTH-1:0] din, dout;
 
   logic reset, load;
 

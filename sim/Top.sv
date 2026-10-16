@@ -3,9 +3,10 @@
 
 `timescale 1ns / 1ps
 
-parameter NUM_XI = 2;
-
 module top;
+
+  parameter NUM_XI = 2;
+  parameter BIT_WIDTH = 3;
 
   bit clk;
 
@@ -14,15 +15,18 @@ module top;
     forever #5 clk = ~clk;
   end
 
-  X_if xi[NUM_XI] (clk);
+  X_if #(.BIT_WIDTH(BIT_WIDTH)) xi[NUM_XI] (clk);
 
-  test tb (xi);
+  test #(
+      .NUM_XI(NUM_XI),
+      .BIT_WIDTH(BIT_WIDTH)
+  ) tb ();
 
   generate
 
     for (genvar i = 0; i < NUM_XI; i++) begin : counter_gen
 
-      counter c (xi[i]);
+      counter #(.BIT_WIDTH(BIT_WIDTH)) c (xi[i]);
 
     end
 

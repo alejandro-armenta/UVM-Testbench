@@ -1,20 +1,16 @@
-
-
 `timescale 1ns / 1ps
 
-module counter (
+module counter #(
+    parameter BIT_WIDTH = 8
+) (
     X_if.DUT xi
 );
 
-  logic [7:0] count;
-
-  assign xi.dout = count;
-
   always @(posedge xi.clk or negedge xi.reset) begin
 
-    if (!xi.reset) count <= '0;
-    else if (xi.load) count <= xi.din;
-    else count <= count + 1;
+    if (!xi.reset) xi.dout <= '0;
+    else if (xi.load) xi.dout <= xi.din;
+    else xi.dout <= xi.dout + 1;
 
   end
 

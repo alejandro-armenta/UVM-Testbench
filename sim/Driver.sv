@@ -3,13 +3,15 @@
 
 `include "x_if.sv"
 
-class Driver;
+class Driver #(
+    parameter BIT_WIDTH = 8
+);
 
-  vx_if xi;
+  virtual X_if #(.BIT_WIDTH(BIT_WIDTH)).TB xi;
 
-  int   id;
+  int id;
 
-  function new(vx_if xi, int id);
+  function new(virtual X_if #(.BIT_WIDTH(BIT_WIDTH)).TB xi, int id);
 
     this.xi = xi;
     this.id = id;
