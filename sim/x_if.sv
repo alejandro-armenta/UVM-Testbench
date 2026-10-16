@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 interface X_if (
     input logic clk
 );
@@ -13,6 +15,8 @@ interface X_if (
     input dout;
 
   endclocking
+
+  always @cb $strobe("%t %m out=%d in=%d load=%d reset=%d", $time, dout, din, load, reset);
 
   modport DUT(input clk, din, reset, load, output dout);
 

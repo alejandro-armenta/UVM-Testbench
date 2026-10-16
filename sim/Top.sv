@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module top;
 
   parameter NUM_XI = 2;
@@ -5,19 +7,30 @@ module top;
   bit clk;
 
   initial begin
-    clk <= '0;
 
-    forever #20 clk = ~clk;
+    clk = '0;
+
+    forever begin
+
+      #5;
+
+      clk = ~clk;
+
+    end
   end
 
   X_if xi[NUM_XI] (clk);
 
-  // multiple drivers con una interace de aqui 
   test #(.NUM_XI(NUM_XI)) tb ();
 
   generate
 
-for (int i=0;i<NUM_XI;i++)begin end
+    for (genvar i = 0; i < NUM_XI; i++) begin : counter_gen
+
+      counter c (xi[i]);
+
+    end
+
   endgenerate
 
 endmodule

@@ -16,25 +16,27 @@ class Driver;
 
   task reset();
 
-    $display("Start Reset");
+    $display("%t %d Start Reset", $time, id);
 
-    xi.reset   <= 1;
+    xi.reset = 0;
     xi.cb.load <= 0;
     xi.cb.din  <= '0;
 
-    @(xi.cb) xi.reset <= 0;
+    repeat (3) @(xi.cb);
 
-    @(xi.cb) xi.reset <= 1;
+    xi.reset = 1;
 
-    $display("End Reset");
+    @(xi.cb);
+
+    $display("%t %d End Reset", $time, id);
 
   endtask
 
   task load_op();
 
-    // wait for one clocking block event 
+    $display("%t %d Start Load", $time, id);
 
-    $display("Start load");
+    wait (xi.reset == 1'b1);
 
     @(xi.cb);
 
@@ -47,7 +49,7 @@ class Driver;
 
     repeat (5) @(xi.cb);
 
-    $display("End load");
+    $display("%t %d End Load", $time, id);
 
   endtask
 

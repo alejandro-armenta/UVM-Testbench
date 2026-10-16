@@ -1,7 +1,7 @@
 `include "Driver.sv"
 
-module automatic test #(
-    NUM_XI = 2
+program automatic test #(
+    parameter NUM_XI = 2
 );
 
   virtual X_if.TB vxi[NUM_XI];
@@ -10,8 +10,6 @@ module automatic test #(
 
   initial begin
 
-    // estas interfaces son las de arriba
-
     vxi = top.xi;
 
     driver = new[NUM_XI];
@@ -19,22 +17,15 @@ module automatic test #(
     foreach (driver[i]) driver[i] = new(vxi[i], i);
 
     foreach (driver[i]) begin
-
       automatic int j = i;
-
-      // cada driver tiene su interface a el dut?
-
       fork
         begin
           driver[j].reset();
           driver[j].load_op();
         end
-      join_none
-
+      join
     end
 
-    repeat (10) @(vxi[0].cb);
-
-
   end
-endmodule
+
+endprogram
