@@ -23,3 +23,5 @@ interface X_if (
   modport TB(clocking cb, output reset);
 
 endinterface
+
+typedef virtual X_if.TB vx_if;

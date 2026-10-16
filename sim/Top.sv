@@ -1,8 +1,11 @@
+`ifndef TOP_SV
+`define TOP_SV
+
 `timescale 1ns / 1ps
 
-module top;
+parameter NUM_XI = 2;
 
-  parameter NUM_XI = 2;
+module top;
 
   bit clk;
 
@@ -13,7 +16,7 @@ module top;
 
   X_if xi[NUM_XI] (clk);
 
-  test #(.NUM_XI(NUM_XI)) tb ();
+  test tb (xi);
 
   generate
 
@@ -26,3 +29,5 @@ module top;
   endgenerate
 
 endmodule
+
+`endif

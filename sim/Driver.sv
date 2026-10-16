@@ -1,13 +1,15 @@
 `ifndef DRIVER_SV
 `define DRIVER_SV
 
+`include "x_if.sv"
+
 class Driver;
 
-  virtual X_if.TB xi;
+  vx_if xi;
 
-  int id;
+  int   id;
 
-  function new(virtual X_if.TB xi, int id);
+  function new(vx_if xi, int id);
 
     this.xi = xi;
     this.id = id;
