@@ -16,3 +16,14 @@ module counter #(
 
 endmodule
 
+module ale #(
+    parameter BIT_WIDTH = 8
+) (
+    X_if.DUT xi
+);
+
+  always @(posedge xi.clk) begin
+
+  end
+
+endmodule
