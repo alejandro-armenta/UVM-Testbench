@@ -23,7 +23,23 @@ module ale #(
 );
 
   always @(posedge xi.clk) begin
-
+    if (!xi.reset) xi.dout <= '0;
+    else if (xi.load) xi.dout <= xi.din;
+    else xi.dout <= xi.dout + 1;
   end
 
+
+
 endmodule
+
+// module ale #(
+//     parameter BIT_WIDTH = 8
+// ) (
+//     X_if.DUT xi
+// );
+
+//   always @(posedge xi.clk) begin
+
+//   end
+
+// endmodule
