@@ -15,3 +15,9 @@ program test;
   end
 
 endprogram
+
+
+function ale();
+
+
+endfunction

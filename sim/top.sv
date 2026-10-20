@@ -4,8 +4,3 @@ module top;
 
 endmodule
 
-function ale();
-
-  int a = 5;
-
-endfunction
