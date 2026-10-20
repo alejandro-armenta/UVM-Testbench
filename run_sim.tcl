@@ -12,11 +12,11 @@ set SNAPSHOT_NAME "snapshot"
 
 set OUTPUT_DIR "./build"  
 
-if {[file exists $OUTPUT_DIR]} {
-    file delete -force $OUTPUT_DIR
-}
+# if {[file exists $OUTPUT_DIR]} {
+#     file delete -force $OUTPUT_DIR
+# }
 
-file mkdir $OUTPUT_DIR
+# file mkdir $OUTPUT_DIR
 
 cd $OUTPUT_DIR
 
@@ -38,7 +38,7 @@ proc compile_library {lib_name files} {
     # Run the compiler via the project file
     puts "Compiling library $lib_name with [llength $files] files..."
     
-    if {[catch { exec xvlog -work $lib_name -prj $prj_filename } log_out]} {
+    if {[catch { exec xvlog -incr -L uvm -work $lib_name -prj $prj_filename } log_out]} {
         puts $log_out
         file delete -force $prj_filename
         exit 1
@@ -59,7 +59,7 @@ compile_library "ale_lib" $all_files
 
 puts "Elaborating design top: $TESTBENCH_TOP into snapshot: $SNAPSHOT_NAME"
 
-set elab_output [exec xelab -debug all -L ale_lib -top $TESTBENCH_TOP -snapshot $SNAPSHOT_NAME]  
+set elab_output [exec xelab -O0 -incr -debug off -L uvm -L ale_lib -top $TESTBENCH_TOP -snapshot $SNAPSHOT_NAME]  
 
 set output_lines [split $elab_output "\n"]  
 
