@@ -39,19 +39,14 @@ module top;
 
   covergroup op_cov;
 
+    // esta cubriendo que op_set tome todos estos estado tanto transitivos como independientes
     coverpoint op_set {
-
-      // test all operations
 
       bins single_cycle[] = {[add_op : xor_op], no_op, rst_op};
       bins multi_cycle = {mul_op};
 
-      // evaluan el reset antes y despues de cada operacion 
-
       bins opn_rst[] = ([add_op : mul_op] => rst_op);
       bins rst_opn[] = (rst_op => [add_op : mul_op]);
-
-      // evaluan el single y el mul antes y despues 
 
       bins sngl_mul[] = ([add_op : xor_op], no_op => mul_op);
       bins muk_sngl[] = (mul_op => [add_op : xor_op], no_op);
@@ -60,6 +55,22 @@ module top;
       bins manymult[] = ({mul_op} [* 3: 5]);
 
     }
+
+  endgroup
+
+  // espacio muestral de tu prueba 
+
+  // todas son variables aleatorias 
+
+  // es el anotador de tu sampleado 
+
+  // deines las distribuciones 
+
+  covergroup zeros;
+
+    coverpoint op_set {ignore_bins null_ops = {rst_op, no_op};}
+
+    coverpoint A {bins zeros = {'h00}; bins ones = {'hFF};}
 
   endgroup
 
