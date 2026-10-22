@@ -9,6 +9,7 @@ module top;
     rst_op = 3'b111
   } operation_t;
 
+  // se definen las variables aleatorias 
 
   byte unsigned A;
   byte unsigned B;
@@ -37,9 +38,12 @@ module top;
       .result(result)
   );
 
+  // se miden las stadisticas de cada variable aleatoria
+
+  // test 0
+
   covergroup op_cov;
 
-    // esta cubriendo que op_set tome todos estos estado tanto transitivos como independientes
     coverpoint op_set {
 
       bins single_cycle[] = {[add_op : xor_op], no_op, rst_op};
@@ -58,19 +62,14 @@ module top;
 
   endgroup
 
-  // espacio muestral de tu prueba 
 
-  // todas son variables aleatorias 
-
-  // es el anotador de tu sampleado 
-
-  // deines las distribuciones 
+  // test 1
 
   covergroup zeros;
 
     coverpoint op_set {ignore_bins null_ops = {rst_op, no_op};}
 
-    coverpoint A {bins zeros = {'h00}; bins ones = {'hFF};}
+    coverpoint A {bins zeros = {'h00}; bins other = {['h01 : 'hFE]}; bins ones = {'hFF};}
 
   endgroup
 
