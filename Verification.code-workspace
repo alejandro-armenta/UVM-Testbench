@@ -5,10 +5,10 @@
 		}
 	],
 	"settings": {
-		"editor.fontSize": 12,
+		"editor.fontSize": 15,
 		"workbench.editor.limit.enabled": true,
 		"workbench.editor.limit.perEditorGroup": true,
 		"workbench.editor.limit.value": 1,
-		"terminal.integrated.fontSize": 12
+		"terminal.integrated.fontSize": 15
 	}
 }
