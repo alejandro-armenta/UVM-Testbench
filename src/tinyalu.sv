@@ -68,6 +68,8 @@ module single_cycle (
 
     end else begin
 
+      // one clock cycle here
+
       done <= start && op != 3'b000;
 
       case (op)
@@ -99,39 +101,45 @@ module three_cycle (
 
   logic [15:0] mult1;
 
-  logic done1, done2;
+  logic start_r1, start_r2;
 
   always @(posedge clk)
     if (!reset_n) begin
 
-      done   <= 0;
+      done <= 0;
 
-      done2  <= 0;
-      done1  <= 0;
+      start_r1 <= 0;
+      start_r2 <= 0;
 
-      a_int  <= 0;
-      b_int  <= 0;
+      a_int <= 0;
+      b_int <= 0;
 
-      mult1  <= 0;
+      mult1 <= 0;
 
       result <= 0;
 
     end else begin
 
-      a_int  <= A;
-      b_int  <= B;
+      // data pipeline
 
-      mult1  <= a_int * b_int;
+      a_int <= A;
+
+      b_int <= B;
+
+      mult1 <= a_int * b_int;
 
       result <= mult1;
 
-      done2  <= start & !done;
+      // done pipeline
 
-      done1  <= done2 & !done;
+      start_r1 <= start;
 
-      done   <= done1 & !done;
+      start_r2 <= start_r1;
+
+      done <= start_r2;
 
     end
+
 endmodule : three_cycle
 
 

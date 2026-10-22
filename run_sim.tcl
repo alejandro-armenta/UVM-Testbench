@@ -6,7 +6,7 @@ puts "Selected random simulation seed: $dynamic_seed"
 
 set_property -name {xsim.simulate.xsim.more_options} -value "-sv_seed $dynamic_seed" -objects [get_filesets sim_1]
 
-set TESTBENCH_TOP "ale_lib.tinyalu" 
+set TESTBENCH_TOP "ale_lib.top" 
 
 set SNAPSHOT_NAME "snapshot"
 
