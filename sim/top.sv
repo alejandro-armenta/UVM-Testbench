@@ -23,6 +23,7 @@ module top;
   logic done;
   logic [15:0] result;
 
+  // este es un bus
   assign op = op_set;
 
   tinyalu dut (
@@ -35,5 +36,31 @@ module top;
       .done(done),
       .result(result)
   );
+
+  covergroup op_cov;
+
+    coverpoint op_set {
+
+      // test all operations
+
+      bins single_cycle[] = {[add_op : xor_op], no_op, rst_op};
+      bins multi_cycle = {mul_op};
+
+      // evaluan el reset antes y despues de cada operacion 
+
+      bins opn_rst[] = ([add_op : mul_op] => rst_op);
+      bins rst_opn[] = (rst_op => [add_op : mul_op]);
+
+      // evaluan el single y el mul antes y despues 
+
+      bins sngl_mul[] = ([add_op : xor_op], no_op => mul_op);
+      bins muk_sngl[] = (mul_op => [add_op : xor_op], no_op);
+
+      bins twoops[] = ({add_op, and_op, xor_op, mul_op} [* 2]);
+      bins manymult[] = ({mul_op} [* 3: 5]);
+
+    }
+
+  endgroup
 
 endmodule
