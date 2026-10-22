@@ -16,7 +16,6 @@ module tinyalu (
   logic start_single, start_mult;
 
   assign start_single = start & ~op[2];
-
   assign start_mult   = start & op[2];
 
   single_cycle and_add_xor (
@@ -41,7 +40,6 @@ module tinyalu (
   );
 
   assign result = (op[2]) ? result_mult : result_aax;
-
   assign done   = (op[2]) ? done_mult : done_aax;
 
 endmodule
@@ -58,8 +56,7 @@ module single_cycle (
     output logic [15:0] result
 );
 
-  always @(posedge clk)
-
+  always @(posedge clk) begin
     if (!reset_n) begin
 
       result <= '0;
@@ -84,6 +81,8 @@ module single_cycle (
 
     end
 
+  end
+
 endmodule : single_cycle
 
 
@@ -103,7 +102,7 @@ module three_cycle (
 
   logic start_r1, start_r2;
 
-  always @(posedge clk)
+  always @(posedge clk) begin
     if (!reset_n) begin
 
       done <= 0;
@@ -139,6 +138,8 @@ module three_cycle (
       done <= start_r2;
 
     end
+
+  end
 
 endmodule : three_cycle
 

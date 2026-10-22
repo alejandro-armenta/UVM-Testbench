@@ -9,6 +9,7 @@ module top;
     rst_op = 3'b111
   } operation_t;
 
+
   byte unsigned A;
   byte unsigned B;
 
@@ -16,11 +17,11 @@ module top;
   bit reset_n;
   bit start;
 
-  wire [2:0] op;
-  wire done;
-  wire [15:0] result;
-
   operation_t op_set;
+
+  logic [2:0] op;
+  logic done;
+  logic [15:0] result;
 
   assign op = op_set;
 
