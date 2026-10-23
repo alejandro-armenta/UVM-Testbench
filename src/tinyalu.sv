@@ -66,10 +66,8 @@ module single_cycle (
 
     end else begin
 
-      // one clock cycle here
-
-      // false
-      done <= start && (op != 3'b000);
+      // one clock cycle to insert done
+      done <= (start && (op != 3'b000));
 
       case (op)
 
@@ -106,6 +104,7 @@ module three_cycle (
 
   always @(posedge clk) begin
     if (!reset_n) begin
+      // en el reset solo dura un cycle 
 
       done <= 0;
 

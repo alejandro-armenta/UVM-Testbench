@@ -38,7 +38,7 @@ module top;
       .result (result)
   );
 
-  `include "test.svh"
+  `include "op_cov.svh"
 
   covergroup zeros_or_ones_on_ops;
 
@@ -85,18 +85,24 @@ module top;
 
   endgroup
 
-  initial begin
-    clk = 0;
-    forever begin
-      #10;
-      clk = ~clk;
-    end
-  end
-
   op_cov oc;
 
   zeros_or_ones_on_ops c_00_FF;
 
+
+  initial begin : clock
+
+    clk = 0;
+
+    forever begin
+
+      #10;
+
+      clk = ~clk;
+
+    end
+
+  end : clock
 
   initial begin : coverage
 
@@ -117,54 +123,26 @@ module top;
 
   end : coverage
 
+  `include "functions.svh"
 
-  function operation_t get_op();
+  always @(posedge done) begin : scoreboard
 
-    bit [2:0] op_choice;
+    shortint unsigned predicted;
 
-    // this truncates into 3 bits
-    op_choice = $random;
+    #1;
 
-    case (op_choice)
+    case (op_set)
 
-      3'b000: return no_op;
-
-      3'b001: return add_op;
-
-      3'b010: return and_op;
-
-      3'b011: return xor_op;
-
-      3'b100: return mul_op;
-
-      3'b101: return no_op;
-
-      3'b110: return rst_op;
-
-      3'b111: return rst_op;
+      add_op: predicted = A + B;
+      and_op: predicted = A & B;
+      xor_op: predicted = A ^ B;
+      mul_op: predicted = A * B;
 
     endcase
 
-  endfunction : get_op
-
-  function byte get_data();
-
-    bit [1:0] zero_ones;
-
-    zero_ones = $random;
-
-    // para que sea mas probable 00 y 11
-    if (zero_ones == 2'b00) begin
-      return 8'h00;
-    end else if (zero_ones == 2'b11) begin
-      return 8'hFF;
-    end else begin
-      return $random;
-    end
 
 
-  endfunction : get_data
-
+  end : scoreboard
 
   initial begin : tester
 
@@ -228,8 +206,3 @@ module top;
   end : tester
 
 endmodule
-
-
-function ale();
-
-endfunction
