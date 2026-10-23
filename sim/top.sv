@@ -94,8 +94,6 @@ op_cov oc;
 
     endcase
 
-    // if (op_set != no_op && op_set != rst_op) begin
-
     if (predicted != result) begin
 
       $error("Failed %0t A: %0h B: %0h op: %s result: %0h predicted: %0h", $time, A, B,
@@ -107,10 +105,6 @@ op_cov oc;
                op_set.name(), result, predicted);
 
     end
-
-    // end
-
-    // ni el reset ni el noop levantan el done entonces nunca vas a ver esas operaciones aqui
 
   end : scoreboard
 
