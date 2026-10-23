@@ -66,7 +66,6 @@ module single_cycle (
 
     end else begin
 
-      // one clock cycle to insert done
       done <= (start && (op != 3'b000));
 
       case (op)
@@ -98,45 +97,52 @@ module three_cycle (
 
   logic [7:0] a_int, b_int;
 
-  logic [15:0] mult1;
+  logic [15:0] mult1, mult2;
 
-  logic start_r1, start_r2;
+  logic done1, done2, done3;
 
   always @(posedge clk) begin
+
     if (!reset_n) begin
-      // en el reset solo dura un cycle 
 
-      done <= 0;
+      done   <= 0;
 
-      start_r1 <= 0;
-      start_r2 <= 0;
+      done3  <= 0;
+      done2  <= 0;
+      done1  <= 0;
 
-      a_int <= 0;
-      b_int <= 0;
+      a_int  <= 0;
+      b_int  <= 0;
 
-      mult1 <= 0;
+      mult1  <= 0;
+      mult2  <= 0;
 
       result <= 0;
 
     end else begin
 
-      // data pipeline
+      a_int  <= A;
 
-      a_int <= A;
+      b_int  <= B;
 
-      b_int <= B;
+      mult1  <= a_int * b_int;
 
-      mult1 <= a_int * b_int;
+      mult2  <= mult1;
 
-      result <= mult1;
+      result <= mult2;
 
-      // done pipeline
+      // apagas el start para que el done se apague
+      // pero tambien se apaga
 
-      start_r1 <= start;
+      // es porque no te esperas al done
 
-      start_r2 <= start_r1;
+      done3  <= start & !done;
 
-      done <= start_r2;
+      done2  <= done3 & !done;
+
+      done1  <= done2 & !done;
+
+      done   <= done1 & !done;
 
     end
 

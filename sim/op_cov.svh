@@ -1,3 +1,4 @@
+
 covergroup op_cov;
 
     coverpoint op_set {
@@ -14,6 +15,51 @@ covergroup op_cov;
       bins twoops[]       = ([add_op:mul_op] [* 2]);
 
       bins manymult[]     = (mul_op [* 3: 5]);
+
+    }
+
+  endgroup
+
+    covergroup zeros_or_ones_on_ops;
+
+    // aqui no esta definido el bin
+
+    all_ops: coverpoint op_set {
+      ignore_bins null_ops = {rst_op, no_op};
+    }
+
+    // toma ese valor
+    a_leg: coverpoint A {
+      bins zeros = {'h00}; bins others = {['h01 : 'hFE]}; bins ones = {'hFF};
+    }
+
+    // toma ese valor
+    b_leg: coverpoint B {
+      bins zeros = {'h00}; bins others = {['h01 : 'hFE]}; bins ones = {'hFF};
+    }
+
+    // 36 combinanciones
+    cross a_leg, b_leg, all_ops{
+
+      bins add_00            = binsof (all_ops) intersect {add_op} && (binsof (a_leg.zeros) || binsof (b_leg.zeros));
+
+      bins add_FF            = binsof (all_ops) intersect {add_op} && (binsof (a_leg.ones) || binsof(b_leg.ones));
+
+      bins and_00            = binsof (all_ops) intersect {and_op} && (binsof (a_leg.zeros) || binsof(b_leg.zeros));
+
+      bins and_FF            = binsof (all_ops) intersect {and_op} && (binsof (a_leg.ones) || binsof(b_leg.ones));
+
+      bins xor_00            = binsof (all_ops) intersect {xor_op} && (binsof (a_leg.zeros) || binsof(b_leg.zeros));
+
+      bins xor_FF            = binsof (all_ops) intersect {xor_op} && (binsof (a_leg.ones) || binsof(b_leg.ones));
+
+      bins mul_00            = binsof (all_ops) intersect {mul_op} && (binsof (a_leg.zeros) || binsof(b_leg.zeros));
+
+      bins mul_FF            = binsof (all_ops) intersect {mul_op} && (binsof (a_leg.ones) || binsof(b_leg.ones));
+
+      bins mul_max           = binsof (all_ops) intersect {mul_op} && (binsof (a_leg.ones) && binsof(b_leg.ones));
+
+      ignore_bins other_only = binsof (a_leg.others) && binsof (b_leg.others);
 
     }
 
