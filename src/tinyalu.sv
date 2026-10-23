@@ -57,6 +57,7 @@ module single_cycle (
 );
 
   always @(posedge clk) begin
+
     if (!reset_n) begin
 
       result <= '0;

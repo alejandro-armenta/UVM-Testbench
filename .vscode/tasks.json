@@ -11,17 +11,18 @@
             "label": "run verification ale",
             "type": "shell",
             "command": "./build.sh",
-            "problemMatcher": 
-            [
+            "problemMatcher": [
                 {
                     "owner": "xvlog-compiler",
-                    "fileLocation": ["absolute"],
+                    "fileLocation": [
+                        "absolute"
+                    ],
                     "pattern": {
-                    "regexp": "^(ERROR|WARNING):\\s+(\\[.*\\]\\s+.*?)(?:\\s+\\[([^:]+):(\\d+)\\])?$",
-                    "severity": 1,
-                    "message": 2,
-                    "file": 3,
-                    "line": 4
+                        "regexp": "^(ERROR|WARNING):\\s+(\\[.*\\]\\s+.*?)(?:\\s+\\[([^:]+):(\\d+)\\])?$",
+                        "severity": 1,
+                        "message": 2,
+                        "file": 3,
+                        "line": 4
                     }
                 }
             ],
@@ -31,18 +32,20 @@
             },
             "presentation": {
                 "focus": false,
-                "reveal":"always"
-            }  
+                "reveal": "always"
+            }
         },
         {
             "label": "format ale",
             "type": "shell",
             "command": "./format.sh",
-            "problemMatcher": 
-            [
+            "problemMatcher": [
                 {
                     "owner": "verible-formatter",
-                    "fileLocation": ["relative", "${workspaceFolder}"],
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder}"
+                    ],
                     "source": "verible",
                     "severity": "error",
                     "pattern": {
@@ -57,23 +60,21 @@
             "group": {
                 "kind": "build",
                 "isDefault": false
-            },
+            }
         },
         {
             "label": "debug ale",
             "type": "shell",
             "command": "./debug.sh",
-            "problemMatcher": 
-            [   
-            ],
+            "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": false
             },
             "presentation": {
                 "focus": false,
-                "reveal":"always"
-            }   
+                "reveal": "always"
+            }
         }
     ]
 }
