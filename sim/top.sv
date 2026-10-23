@@ -94,22 +94,23 @@ op_cov oc;
 
     endcase
 
-    if (op_set != no_op && op_set != rst_op) begin
-      if (predicted != result) begin
-        $error("Failed %0t A: %0h B: %0h op: %s result: %0h predicted: %0h", $time, A, B,
-               op_set.name(), result, predicted);
+    // if (op_set != no_op && op_set != rst_op) begin
 
-        // $error("FAILED A: %0h B: %0h op: %s result: %0h ", A, B, op_set.name(), result);
-      end else begin
-        $display("SUCCESS %0t A: %0h B: %0h op: %s result: %0h predicted: %0h", $time, A, B,
-                 op_set.name(), result, predicted);
-      end
+    if (predicted != result) begin
+
+      $error("Failed %0t A: %0h B: %0h op: %s result: %0h predicted: %0h", $time, A, B,
+             op_set.name(), result, predicted);
+
     end else begin
 
-      $display("%0t A: %0h B: %0h op: %s", $time, A, B, op_set.name());
+      $display("SUCCESS %0t A: %0h B: %0h op: %s result: %0h predicted: %0h", $time, A, B,
+               op_set.name(), result, predicted);
 
     end
 
+    // end
+
+    // ni el reset ni el noop levantan el done entonces nunca vas a ver esas operaciones aqui
 
   end : scoreboard
 
@@ -126,6 +127,8 @@ op_cov oc;
 
     repeat (1000) begin
 
+      // funciona por 1 clk 
+
       @(negedge clk);
 
       op_set = get_op();
@@ -140,19 +143,13 @@ op_cov oc;
 
         no_op: begin
 
-          // clock
-
           @(posedge clk);
 
           start = 0;
 
-          // en todas se apaga la senal despues de un clock 
-
         end
 
         rst_op: begin
-
-          // clock
 
           reset_n = 0;
           start   = 0;
@@ -164,10 +161,13 @@ op_cov oc;
         end
 
         default: begin
-          // esta cosa no importa lo que se tarde esta cosa se va a esperar
-          // se apaga done y el start no ha cambiado entonces empieza a computar la data con las datas  que estan ahi guardadas y sigue 
+
           wait (done);
+
           start = 0;
+
+          @(posedge clk);
+
         end
 
       endcase
@@ -178,4 +178,7 @@ op_cov oc;
 
   end : tester
 
+  initial begin
+    // $monitor("%0t %b %s %h %h", $time, done, op_set.name(), A, B);
+  end
 endmodule

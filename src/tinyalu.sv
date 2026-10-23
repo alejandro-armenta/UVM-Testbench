@@ -62,23 +62,32 @@ module single_cycle (
 
       result <= '0;
 
-      done   <= 0;
-
     end else begin
-
-      done <= (start && (op != 3'b000));
 
       case (op)
 
-        3'b001: result <= {8'b0, A} + {8'b0, B};
-        3'b010: result <= {8'b0, A} & {8'b0, B};
-        3'b011: result <= {8'b0, A} ^ {8'b0, B};
-
-        default: result <= '0;
+        3'b001: result <= A + B;
+        3'b010: result <= A & B;
+        3'b011: result <= A ^ B;
 
       endcase
 
     end
+
+  end
+
+  always @(posedge clk) begin
+
+    if (!reset_n) begin
+
+      done <= 0;
+
+    end else begin
+
+      done <= (start == 1'b1) && (op != 3'b000);
+
+    end
+
 
   end
 
@@ -131,10 +140,9 @@ module three_cycle (
 
       result <= mult2;
 
-      // apagas el start para que el done se apague
-      // pero tambien se apaga
-
-      // es porque no te esperas al done
+      // hasta que este apagado puedes empezar otra vez si quieres
+      // esta es independiente no la puedes controlar
+      // el done si la puedes controlar 4 segundos
 
       done3  <= start & !done;
 
