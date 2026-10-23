@@ -68,7 +68,8 @@ module single_cycle (
 
       // one clock cycle here
 
-      done <= start && op != 3'b000;
+      // false
+      done <= start && (op != 3'b000);
 
       case (op)
 

@@ -97,6 +97,7 @@ module top;
 
   zeros_or_ones_on_ops c_00_FF;
 
+
   initial begin : coverage
 
     oc = new();
@@ -115,6 +116,7 @@ module top;
     end
 
   end : coverage
+
 
   function operation_t get_op();
 
@@ -143,7 +145,7 @@ module top;
 
     endcase
 
-  endfunction
+  endfunction : get_op
 
   function byte get_data();
 
@@ -161,7 +163,7 @@ module top;
     end
 
 
-  endfunction
+  endfunction : get_data
 
 
   initial begin : tester
@@ -187,11 +189,43 @@ module top;
 
       start = 1'b1;
 
+      $displayb(op_set,, A,, B);
+
+      case (op_set)
+
+        no_op: begin
+
+          @(posedge clk);
+
+          start = 0;
+
+          // done nunca se levanta y result es zero
+
+        end
+
+        rst_op: begin
+
+          reset_n = 0;
+          start   = 0;
+
+          @(negedge clk);
+
+          reset_n = 1;
+
+        end
+
+        default: begin
+          wait (done);
+          start = 0;
+        end
+
+      endcase
+
     end
 
     $stop;
 
-  end
+  end : tester
 
 endmodule
 
