@@ -6,8 +6,17 @@ covergroup op_cov;
       bins single_cycle[] = {[add_op : xor_op], no_op, rst_op};
       bins multi_cycle    = {mul_op};
 
-      bins opn_rst[]      = ([add_op : mul_op] => rst_op);
-      bins rst_opn[]      = (rst_op => [add_op : mul_op]);
+      bins opn_rst[]      = (add_op => rst_op), 
+                            (and_op => rst_op), 
+                            (xor_op => rst_op), 
+                            (mul_op => rst_op);
+                            
+      bins rst_opn[]      = (rst_op => add_op), 
+                            (rst_op => and_op), 
+                            (rst_op => xor_op), 
+                            (rst_op => mul_op);
+
+      // (rst_op => [add_op : mul_op]);
 
       bins sngl_mul[]     = ([add_op : xor_op], no_op => mul_op);
       bins muk_sngl[]     = (mul_op => [add_op : xor_op], no_op);

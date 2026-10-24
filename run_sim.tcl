@@ -59,7 +59,13 @@ compile_library "ale_lib" $all_files
 
 puts "Elaborating design top: $TESTBENCH_TOP into snapshot: $SNAPSHOT_NAME"
 
-set elab_output [exec xelab -O0 -incr -debug off -L uvm -L ale_lib -top $TESTBENCH_TOP -snapshot $SNAPSHOT_NAME]  
+set COV_NAME "DB1"
+
+set COV_DIR "./xsim.covdata"
+
+# set COV_DIR "./xsim.covdb"
+
+set elab_output [exec xelab -O0 -incr -debug off -L uvm -L ale_lib -top $TESTBENCH_TOP -snapshot $SNAPSHOT_NAME -cov_db_name $COV_NAME -cov_db_dir $COV_DIR -cc_type sbct]  
 
 set output_lines [split $elab_output "\n"]  
 
