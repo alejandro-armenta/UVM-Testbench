@@ -15,6 +15,35 @@ module top;
 
   // se definen las variables aleatorias
 
+  byte unsigned        A;
+  byte unsigned        B;
+
+  bit                  clk;
+  bit                  reset_n;
+  bit                  start;
+
+  operation_t          op_set;
+
+  logic         [ 2:0] op;
+  logic                done;
+  logic         [15:0] result;
+
+  assign op = op_set;
+
+  initial begin : clock
+
+    clk = 0;
+
+    forever begin
+
+      #10;
+
+      clk = ~clk;
+
+    end
+
+  end : clock
+
 
   // este es un bus
 
