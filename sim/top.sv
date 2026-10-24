@@ -1,3 +1,4 @@
+
 module top;
 
   typedef enum bit [2:0] {
@@ -175,4 +176,5 @@ op_cov oc;
   initial begin
     // $monitor("%0t %b %s %h %h", $time, done, op_set.name(), A, B);
   end
+
 endmodule

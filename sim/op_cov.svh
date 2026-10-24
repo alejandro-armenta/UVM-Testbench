@@ -38,7 +38,7 @@ covergroup op_cov;
 
   endgroup
 
-    covergroup zeros_or_ones_on_ops;
+  covergroup zeros_or_ones_on_ops;
 
     // aqui no esta definido el bin
 

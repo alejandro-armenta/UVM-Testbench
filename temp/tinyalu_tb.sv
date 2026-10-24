@@ -16,40 +16,42 @@
 module top;
 
    typedef enum bit[2:0] {no_op  = 3'b000,
-                          add_op = 3'b001,
+                          add_op = 3'b001, 
                           and_op = 3'b010,
                           xor_op = 3'b011,
                           mul_op = 3'b100,
-                          rst_op  = 3'b111} operation_t;
+                          rst_op = 3'b111} operation_t;
    byte         unsigned        A;
    byte         unsigned        B;
    bit          clk;
    bit          reset_n;
-   wire [2:0] op;
+   wire [2:0]   op;
    bit          start;
-   wire        done  ;
-   wire [15:0] result;
+   wire         done;
+   wire [15:0]  result;
    operation_t  op_set;
 
    assign op = op_set;
 
-   tinyalu DUT(
-      );
+   tinyalu DUT (.A, .B, .clk, .op, .reset_n, .start, .done, .result);
+
+
 
    covergroup op_cov;
 
       coverpoint op_set {
          bins single_cycle[] = {[add_op : xor_op], rst_op,no_op};
-         bins multi_cycle    = {mul_op};
+         bins multi_cycle = {mul_op};
 
-         bins opn_rst[]      = ([add_op:mul_op] => rst_op);
-         bins rst_opn[]      = (rst_op => [add_op:mul_op]);
+         bins opn_rst[] = ([add_op:mul_op] => rst_op);
+         bins rst_opn[] = (rst_op => [add_op:mul_op]);
 
-         bins sngl_mul[]     = ([add_op:xor_op],no_op => mul_op);
-         bins mul_sngl[]     = (mul_op => [add_op:xor_op], no_op);
+         bins sngl_mul[] = ([add_op:xor_op],no_op => mul_op);
+         bins mul_sngl[] = (mul_op => [add_op:xor_op], no_op);
 
-         bins twoops[]       = ([add_op:mul_op] [* 2]);
-         bins manymult       = (mul_op [* 3:5]);
+         bins twoops[] = ([add_op:mul_op] [* 2]);
+         bins manymult = (mul_op [* 3:5]);
+
 
       }
 
@@ -61,15 +63,15 @@ module top;
          ignore_bins null_ops = {rst_op, no_op};}
 
       a_leg: coverpoint A {
-         bins zeros  = {'h00};
-         bins others = {['h01:'hFE]};
-         bins ones   = {'hFF};
+         bins zeros = {'h00};
+         bins others= {['h01:'hFE]};
+         bins ones  = {'hFF};
       }
 
       b_leg: coverpoint B {
-         bins zeros  = {'h00};
-         bins others = {['h01:'hFE]};
-         bins ones   = {'hFF};
+         bins zeros = {'h00};
+         bins others= {['h01:'hFE]};
+         bins ones  = {'hFF};
       }
 
       op_00_FF:  cross a_leg, b_leg, all_ops {
@@ -107,6 +109,9 @@ module top;
 
    endgroup
 
+
+
+
    initial begin
       clk = 0;
       forever begin
@@ -114,34 +119,35 @@ module top;
          clk = ~clk;
       end
    end
-
+   
    op_cov oc;
    zeros_or_ones_on_ops c_00_FF;
 
    initial begin : coverage
-
-      oc      = new();
+   
+      oc = new();
       c_00_FF = new();
-
+   
       forever begin @(negedge clk);
          oc.sample();
          c_00_FF.sample();
       end
    end : coverage
+   
 
    function operation_t get_op();
       bit [2:0] op_choice;
       op_choice = $random;
       case (op_choice)
-         3'b000 : return no_op;
-         3'b001 : return add_op;
-         3'b010 : return and_op;
-         3'b011 : return xor_op;
-         3'b100 : return mul_op;
-         3'b101 : return no_op;
-         3'b110 : return rst_op;
-         3'b111 : return rst_op;
-      endcase
+        3'b000 : return no_op;
+        3'b001 : return add_op;
+        3'b010 : return and_op;
+        3'b011 : return xor_op;
+        3'b100 : return mul_op;
+        3'b101 : return no_op;
+        3'b110 : return rst_op;
+        3'b111 : return rst_op;
+      endcase // case (op_choice)
    endfunction : get_op
 
    function byte get_data();
@@ -159,48 +165,54 @@ module top;
       shortint predicted_result;
       #1;
       case (op_set)
-         add_op: predicted_result = A + B;
-         and_op: predicted_result = A & B;
-         xor_op: predicted_result = A ^ B;
-         mul_op: predicted_result = A * B;
-      endcase
+        add_op: predicted_result = A + B;
+        and_op: predicted_result = A & B;
+        xor_op: predicted_result = A ^ B;
+        mul_op: predicted_result = A * B;
+      endcase // case (op_set)
 
       if ((op_set != no_op) && (op_set != rst_op))
-         if (predicted_result != result)
-            $error ("FAILED: A: %0h  B: %0h  op: %s result: %0h",
-      A, B, op_set.name(), result);
+        if (predicted_result != result)
+          $error ("FAILED: A: %0h  B: %0h  op: %s result: %0h",
+                  A, B, op_set.name(), result);
 
    end : scoreboard
+   
 
+   
+   
    initial begin : tester
       reset_n = 1'b0;
       @(negedge clk);
       @(negedge clk);
       reset_n = 1'b1;
-      start   = 1'b0;
+      start = 1'b0;
       repeat (1000) begin
          @(negedge clk);
          op_set = get_op();
-         A      = get_data();
-         B      = get_data();
-         start  = 1'b1;
+         A = get_data();
+         B = get_data();
+         start = 1'b1;
          case (op_set) // handle the start signal
-            no_op: begin
-               @(posedge clk);
-               start = 1'b0;
-            end
-            rst_op: begin
-               reset_n = 1'b0;
-               start   = 1'b0;
-               @(negedge clk);
-               reset_n = 1'b1;
-            end
-            default: begin
-               wait(done);
-               start = 1'b0;
-            end
-         endcase
+           no_op: begin 
+              @(posedge clk);
+              start = 1'b0;
+           end
+           rst_op: begin 
+              reset_n = 1'b0;
+              start = 1'b0;
+              @(negedge clk);
+              reset_n = 1'b1;
+           end
+           default: begin 
+              wait(done);
+              start = 1'b0;
+           end
+         endcase // case (op_set)
       end
       $stop;
    end : tester
 endmodule : top
+
+
+
