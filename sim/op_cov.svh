@@ -16,13 +16,22 @@ covergroup op_cov;
                             (rst_op => xor_op), 
                             (rst_op => mul_op);
 
-      // (rst_op => [add_op : mul_op]);
 
-      bins sngl_mul[]     = ([add_op : xor_op], no_op => mul_op);
-      bins muk_sngl[]     = (mul_op => [add_op : xor_op], no_op);
+      bins sngl_mul[]     = (add_op => mul_op), 
+                            (and_op => mul_op), 
+                            (xor_op => mul_op), 
+                            (no_op => mul_op); 
+      
+      bins mul_sngl[]     = (mul_op => add_op), 
+                            (mul_op => and_op), 
+                            (mul_op => xor_op), 
+                            (mul_op => no_op);
 
-      bins twoops[]       = ([add_op:mul_op] [* 2]);
-
+      bins twoops[]       = (add_op => add_op), 
+                            (and_op => and_op), 
+                            (xor_op => xor_op), 
+                            (mul_op => mul_op);
+                            
       bins manymult[]     = (mul_op [* 3: 5]);
 
     }
