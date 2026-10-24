@@ -1,3 +1,14 @@
+`ifndef TESTER_SV
+`define TESTER_SV
+
+`include "package.sv"
+
+module tester (
+    tinyalu_bfm bfm
+);
+
+  import tinyalu_pkg::*;
+
   function operation_t get_op();
 
     bit [2:0] op_choice;
@@ -44,3 +55,35 @@
 
 
   endfunction : get_data
+
+
+  initial begin
+
+    byte unsigned A;
+    byte unsigned B;
+
+    operation_t   op_set;
+
+    // esto es estimulacion
+    bfm.reset_alu();
+
+    repeat (20) begin
+
+      op_set = get_op();
+
+      A = get_data();
+
+      B = get_data();
+
+      // esta es la estimulacion 
+      bfm.send_op(A, B, op_set);
+
+    end
+
+    $stop;
+
+  end
+
+endmodule
+
+`endif

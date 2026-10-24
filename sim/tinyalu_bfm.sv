@@ -1,3 +1,7 @@
+`ifndef BFM_SV
+`define BFM_SV
+
+`include "package.sv"
 
 interface tinyalu_bfm;
 
@@ -46,6 +50,7 @@ interface tinyalu_bfm;
 
   endtask : reset_alu
 
+  // protocol is stimulus
   task send_op(byte unsigned iA, byte unsigned iB, operation_t iop);
 
     op_set = iop;
@@ -53,6 +58,8 @@ interface tinyalu_bfm;
     case (iop)
 
       rst_op: begin
+
+        // aqui acaba de pasar un negedge clk
 
         @(posedge clk);
 
@@ -70,6 +77,8 @@ interface tinyalu_bfm;
       end
 
       default: begin
+
+        // aqui acaba de pasar un negedge clk
 
         @(negedge clk);
 
@@ -96,6 +105,8 @@ interface tinyalu_bfm;
           // esto se evalua en el negedge clk
           start = 0;
 
+          // posedge clk
+
         end
 
       end
@@ -106,3 +117,7 @@ interface tinyalu_bfm;
   endtask : send_op
 
 endinterface
+
+`endif
+
+
