@@ -1,4 +1,7 @@
 
+// functional coverage 
+// bus functional model
+
 module top;
 
   typedef enum bit [2:0] {
@@ -12,21 +15,8 @@ module top;
 
   // se definen las variables aleatorias
 
-  byte unsigned        A;
-  byte unsigned        B;
-
-  bit                  clk;
-  bit                  reset_n;
-  bit                  start;
-
-  operation_t          op_set;
-
-  logic         [ 2:0] op;
-  logic                done;
-  logic         [15:0] result;
 
   // este es un bus
-  assign op = op_set;
 
   tinyalu dut (
       .A      (A),
@@ -45,19 +35,6 @@ op_cov oc;
 
   zeros_or_ones_on_ops c_00_FF;
 
-  initial begin : clock
-
-    clk = 0;
-
-    forever begin
-
-      #10;
-
-      clk = ~clk;
-
-    end
-
-  end : clock
 
   initial begin : coverage
 
@@ -118,11 +95,10 @@ op_cov oc;
     @(negedge clk);
 
     reset_n = 1;
+
     start   = 0;
 
     repeat (1000) begin
-
-      // funciona por 1 clk 
 
       @(negedge clk);
 
