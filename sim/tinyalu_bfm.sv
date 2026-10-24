@@ -1,5 +1,7 @@
 
-interface ale;
+interface tinyalu_bfm;
+
+  import tinyalu_pkg::*;
 
   byte unsigned        A;
   byte unsigned        B;
@@ -42,10 +44,62 @@ interface ale;
 
     start   = 0;
 
-  endtask
+  endtask : reset_alu
 
-  task send_op();
+  task send_op(byte unsigned iA, byte unsigned iB, operation_t iop);
 
-  endtask
+    op_set = iop;
+
+    case (iop)
+
+      rst_op: begin
+
+        @(posedge clk);
+
+        // reset
+
+        reset_n = 0;
+        start   = 0;
+
+        // te esperas tantito para que se estabilize todas las senales de reseteo
+        @(posedge clk);
+        #1;
+
+        reset_n = 1;
+
+      end
+
+      default: begin
+
+        @(negedge clk);
+
+        A = iA;
+        B = iB;
+
+        start = 1;
+
+        if (iop == no_op) begin
+
+          @(posedge clk);
+          #1;
+
+          start = 0;
+
+        end else begin
+
+          do begin
+            @(negedge clk);
+          end while (done == 0);
+
+          start = 0;
+
+        end
+
+      end
+
+    endcase
+
+
+  endtask : send_op
 
 endinterface

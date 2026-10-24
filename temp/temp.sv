@@ -68,7 +68,7 @@ interface tinyalu_bfm;
          end else begin
             do
               @(negedge clk);
-            while (done == 0);
+            while (done == 0); 
             start = 1'b0;
          end
       end // else: !if(iop == rst_op)
@@ -77,4 +77,3 @@ interface tinyalu_bfm;
 
 endinterface : tinyalu_bfm
 
-   
