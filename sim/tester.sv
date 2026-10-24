@@ -46,11 +46,17 @@ module tester (
 
     // para que sea mas probable 00 y 11
     if (zero_ones == 2'b00) begin
+
       return 8'h00;
+
     end else if (zero_ones == 2'b11) begin
+
       return 8'hFF;
+
     end else begin
+
       return $random;
+
     end
 
 
