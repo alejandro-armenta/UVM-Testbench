@@ -89,8 +89,11 @@ interface tinyalu_bfm;
 
           do begin
             @(negedge clk);
+
+            // esto se evalua en el negedge clk
           end while (done == 0);
 
+          // esto se evalua en el negedge clk
           start = 0;
 
         end
