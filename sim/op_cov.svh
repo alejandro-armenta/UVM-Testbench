@@ -43,7 +43,11 @@ covergroup op_cov;
     // aqui no esta definido el bin
 
     all_ops: coverpoint op_set {
+      
+      bins valid_ops[] = {add_op, and_op, xor_op, mul_op};
+      
       ignore_bins null_ops = {rst_op, no_op};
+      
     }
 
     // toma ese valor
