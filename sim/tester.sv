@@ -73,7 +73,7 @@ module tester (
     // esto es estimulacion
     bfm.reset_alu();
 
-    repeat (20) begin
+    repeat (1000) begin
 
       op_set = get_op();
 

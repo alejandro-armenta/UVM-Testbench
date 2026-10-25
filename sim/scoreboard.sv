@@ -22,13 +22,13 @@ module scoreboard (
 
     if (predicted != bfm.result) begin
 
-      // $error("Failed %0t A: %0h B: %0h op: %s result: %0h predicted: %0h", $time, bfm.A, bfm.B,
-      //  bfm.op_set.name(), bfm.result, predicted);
+      $error("Failed %0t A: %0h B: %0h op: %s result: %0h predicted: %0h", $time, bfm.A, bfm.B,
+             bfm.op_set.name(), bfm.result, predicted);
 
     end else begin
 
-      // $display("SUCCESS %0t A: %0h B: %0h op: %s result: %0h predicted: %0h", $time, bfm.A, bfm.B,
-      //  bfm.op_set.name(), bfm.result, predicted);
+      $display("SUCCESS %0t A: %0h B: %0h op: %s result: %0h predicted: %0h", $time, bfm.A, bfm.B,
+               bfm.op_set.name(), bfm.result, predicted);
 
     end
 
