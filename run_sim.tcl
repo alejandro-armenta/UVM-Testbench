@@ -20,6 +20,8 @@ file mkdir $OUTPUT_DIR
 
 cd $OUTPUT_DIR
 
+
+
 # Function to generate a .prj file and compile it safely
 proc compile_library {lib_name files} {
     if {[llength $files] == 0} { return }
@@ -48,14 +50,24 @@ proc compile_library {lib_name files} {
     file delete -force $prj_filename
 }
 
-# 1. Compile source files
-set src_files [glob -nocomplain ../src/*.sv]
+set all_files [glob -nocomplain ../src/*.sv ../sim/*.sv]
 
-set sim_files [glob -nocomplain ../sim/*.sv]
+# puts $all_files
 
-set all_files [concat $src_files $sim_files]
+set pkg_files [lsearch -all -inline $all_files "*_pkg.sv"]
 
-compile_library "ale_lib" $all_files
+# puts $pkg_files
+
+set remaining_files [lsearch -all -inline -not $all_files "*_pkg.sv"]
+
+# puts $remaining_files
+
+set files_to_compile [concat $pkg_files $remaining_files]
+
+# puts $files_to_compile
+
+compile_library "ale_lib" $files_to_compile
+
 
 puts "Elaborating design top: $TESTBENCH_TOP into snapshot: $SNAPSHOT_NAME"
 

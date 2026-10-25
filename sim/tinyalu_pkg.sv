@@ -10,5 +10,6 @@ package tinyalu_pkg;
     rst_op = 3'b111
   } operation_t;
 
+  `include "tester.svh"
 
 endpackage

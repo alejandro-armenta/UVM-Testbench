@@ -1,11 +1,11 @@
 module top;
 
+  import tinyalu_pkg::*;
+
   tinyalu_bfm bfm ();
 
-  // este hace escritura al bfm
-  tester t (bfm);
+  tester t;
 
-  // esta madre solo es de lectura
   coverage c (bfm);
 
   scoreboard s (bfm);
@@ -23,6 +23,12 @@ module top;
       .done  (bfm.done),
       .result(bfm.result)
   );
+
+  initial begin
+
+    t = new(bfm);
+
+  end
 
 endmodule
 

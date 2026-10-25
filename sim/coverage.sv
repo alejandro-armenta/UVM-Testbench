@@ -1,8 +1,6 @@
 `ifndef COVERAGE_SV
 `define COVERAGE_SV
 
-`include "package.sv"
-
 module coverage (
     tinyalu_bfm bfm
 );

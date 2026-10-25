@@ -1,4 +1,3 @@
-
 module scoreboard (
     tinyalu_bfm bfm
 );

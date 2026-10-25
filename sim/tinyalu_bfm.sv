@@ -1,8 +1,6 @@
 `ifndef BFM_SV
 `define BFM_SV
 
-`include "package.sv"
-
 interface tinyalu_bfm;
 
   import tinyalu_pkg::*;

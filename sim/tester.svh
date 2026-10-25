@@ -1,13 +1,13 @@
 `ifndef TESTER_SV
 `define TESTER_SV
 
-`include "package.sv"
+class tester;
 
-module tester (
-    tinyalu_bfm bfm
-);
+  virtual tinyalu_bfm bfm;
 
-  import tinyalu_pkg::*;
+  function new(virtual tinyalu_bfm bfm);
+    this.bfm = bfm;
+  endfunction
 
   function operation_t get_op();
 
@@ -62,15 +62,13 @@ module tester (
 
   endfunction : get_data
 
-
-  initial begin
+  task execute();
 
     byte unsigned A;
     byte unsigned B;
 
     operation_t   op_set;
 
-    // esto es estimulacion
     bfm.reset_alu();
 
     repeat (1000) begin
@@ -81,15 +79,14 @@ module tester (
 
       B = get_data();
 
-      // esta es la estimulacion 
       bfm.send_op(A, B, op_set);
 
     end
 
     $stop;
 
-  end
+  endtask
 
-endmodule
+endclass
 
 `endif
