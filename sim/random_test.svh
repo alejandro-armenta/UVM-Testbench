@@ -1,6 +1,12 @@
 
 // this extends from uvm_component
 
+// entonces es una maquina que instancia esta clase 
+
+// y la corre con run_phase
+
+// build_phase
+
 class random_test extends uvm_test;
 
   // esta madre se registra en el mapa the proxies 
