@@ -83,6 +83,8 @@ class random_tester;
 
     end
 
+    #500;
+
   endtask
 
 endclass

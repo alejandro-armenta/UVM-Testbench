@@ -24,16 +24,23 @@ class random_test extends uvm_test;
 
     coverage coverage_h;
 
+    scoreboard scoreboard_h;
+
     phase.raise_objection(this);
 
     random_tester_h = new(bfm);
 
     coverage_h = new(bfm);
 
+    scoreboard_h = new(bfm);
+
     fork
 
       // forever
+
       coverage_h.execute();
+
+      scoreboard_h.execute();
 
     join_none
 
