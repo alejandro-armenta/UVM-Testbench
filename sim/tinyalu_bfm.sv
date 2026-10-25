@@ -36,6 +36,12 @@ interface tinyalu_bfm;
 
   end : clock
 
+  initial begin
+
+    // $monitor("%0t %b %s %h %h", $time, done, op_set.name(), A, B);
+
+  end
+
   task reset_alu();
 
     reset_n = 0;
@@ -51,26 +57,34 @@ interface tinyalu_bfm;
   endtask : reset_alu
 
   // protocol is stimulus
-  task send_op(byte unsigned iA, byte unsigned iB, operation_t iop);
+  task send_op(input byte unsigned iA, input byte unsigned iB, input operation_t iop);
+
+    @(negedge clk);
 
     op_set = iop;
 
+    A = iA;
+
+    B = iB;
+
+    start = 1;
+
     case (iop)
 
-      rst_op: begin
-
-        // aqui acaba de pasar un negedge clk
+      no_op: begin
 
         @(posedge clk);
 
-        // reset
+        start = 0;
+
+      end
+
+      rst_op: begin
 
         reset_n = 0;
         start   = 0;
 
-        // te esperas tantito para que se estabilize todas las senales de reseteo
-        @(posedge clk);
-        #1;
+        @(negedge clk);
 
         reset_n = 1;
 
@@ -78,36 +92,11 @@ interface tinyalu_bfm;
 
       default: begin
 
-        // aqui acaba de pasar un negedge clk
+        @(posedge done);
 
-        @(negedge clk);
+        start = 0;
 
-        A = iA;
-        B = iB;
-
-        start = 1;
-
-        if (iop == no_op) begin
-
-          @(posedge clk);
-          #1;
-
-          start = 0;
-
-        end else begin
-
-          do begin
-            @(negedge clk);
-
-            // esto se evalua en el negedge clk
-          end while (done == 0);
-
-          // esto se evalua en el negedge clk
-          start = 0;
-
-          // posedge clk
-
-        end
+        @(posedge clk);
 
       end
 

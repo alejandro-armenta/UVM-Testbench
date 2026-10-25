@@ -84,6 +84,7 @@ module single_cycle (
 
     end else begin
 
+      // aqui se apaga 
       done <= (start == 1'b1) && (op != 3'b000);
 
     end
