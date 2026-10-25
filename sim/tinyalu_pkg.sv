@@ -11,5 +11,6 @@ package tinyalu_pkg;
   } operation_t;
 
   `include "tester.svh"
+  `include "testbench.svh"
 
 endpackage

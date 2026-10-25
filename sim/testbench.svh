@@ -1,3 +1,6 @@
+`ifndef TESTBENCH_SVH
+`define TESTBENCH_SVH
+
 class testbench;
 
   virtual tinyalu_bfm bfm;
@@ -8,4 +11,16 @@ class testbench;
     this.bfm = bfm;
   endfunction
 
+  task execute();
+
+    tester_h = new(bfm);
+
+    fork
+      tester_h.execute();
+    join
+
+  endtask
+
 endclass
+
+`endif

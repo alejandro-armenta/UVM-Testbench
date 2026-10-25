@@ -1,5 +1,5 @@
-`ifndef TESTER_SV
-`define TESTER_SV
+`ifndef TESTER_SVH
+`define TESTER_SVH
 
 class tester;
 

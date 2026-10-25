@@ -4,11 +4,7 @@ module top;
 
   tinyalu_bfm bfm ();
 
-  tester t;
-
-  coverage c (bfm);
-
-  scoreboard s (bfm);
+  testbench t;
 
   tinyalu DUT (
 
@@ -27,6 +23,8 @@ module top;
   initial begin
 
     t = new(bfm);
+
+    t.execute();
 
   end
 
