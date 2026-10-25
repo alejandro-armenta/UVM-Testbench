@@ -16,5 +16,6 @@ package tinyalu_pkg;
 
   `include "random_tester.svh"
   `include "random_test.svh"
+  `include "coverage.svh"
 
 endpackage

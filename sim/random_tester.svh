@@ -83,8 +83,6 @@ class random_tester;
 
     end
 
-    $stop;
-
   endtask
 
 endclass
