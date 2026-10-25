@@ -12,6 +12,7 @@ package tinyalu_pkg;
 
   `include "tester.svh"
   `include "coverage.svh"
+  `include "scoreboard.svh"
   `include "testbench.svh"
 
 endpackage
