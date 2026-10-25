@@ -38,7 +38,7 @@ interface tinyalu_bfm;
 
   initial begin
 
-    // $monitor("%0t %b %s %h %h", $time, done, op_set.name(), A, B);
+    $monitor("%0t %b %s %h %h", $time, done, op_set.name(), A, B);
 
   end
 
