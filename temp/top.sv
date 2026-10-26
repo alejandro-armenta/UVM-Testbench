@@ -1,10 +1,11 @@
 module top;
 
+  import uvm_pkg::*;
+  `include "uvm_macros.svh"
+
   import tinyalu_pkg::*;
 
   tinyalu_bfm bfm ();
-
-  testbench t;
 
   tinyalu DUT (
 
@@ -22,9 +23,13 @@ module top;
 
   initial begin
 
-    t = new(bfm);
+    // visible accross the whole testbench
 
-    t.execute();
+    // we are storing in the database for future usage
+
+    uvm_config_db#(virtual interface tinyalu_bfm)::set(null, "*", "bfm", bfm);
+
+    run_test();
 
   end
 

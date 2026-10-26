@@ -104,6 +104,7 @@ class coverage;
       // aqui estas conectando las variables del coverage con las variables del bus
       A = bfm.A;
       B = bfm.B;
+
       op_set = bfm.op_set;
 
       // el sampler no puede ver el bus 

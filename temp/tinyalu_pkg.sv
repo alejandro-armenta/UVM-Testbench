@@ -1,6 +1,9 @@
 
 package tinyalu_pkg;
 
+  import uvm_pkg::*;
+  `include "uvm_macros.svh"
+
   typedef enum bit [2:0] {
     no_op  = 3'b000,
     add_op = 3'b001,
@@ -10,9 +13,9 @@ package tinyalu_pkg;
     rst_op = 3'b111
   } operation_t;
 
-  `include "tester.svh"
+  `include "random_tester.svh"
+  `include "random_test.svh"
   `include "coverage.svh"
   `include "scoreboard.svh"
-  `include "testbench.svh"
 
 endpackage

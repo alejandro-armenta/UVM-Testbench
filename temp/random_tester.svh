@@ -1,7 +1,7 @@
 `ifndef TESTER_SVH
 `define TESTER_SVH
 
-class tester;
+class random_tester;
 
   virtual tinyalu_bfm bfm;
 
@@ -83,7 +83,7 @@ class tester;
 
     end
 
-    $stop;
+    #500;
 
   endtask
 

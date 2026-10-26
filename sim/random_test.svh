@@ -1,12 +1,4 @@
 
-// this extends from uvm_component
-
-// entonces es una maquina que instancia esta clase 
-
-// y la corre con run_phase
-
-// build_phase
-
 class random_test extends uvm_test;
 
   // esta madre se registra en el mapa the proxies 
@@ -14,46 +6,56 @@ class random_test extends uvm_test;
 
   virtual tinyalu_bfm bfm;
 
+  random_tester tester_h;
+
+  coverage coverage_h;
+
   function new(string name, uvm_component parent);
 
     super.new(name, parent);
 
-    // es una funcion puntero
-    if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
-      $fatal(2, "Couldnt get pointer to bfm");
+  endfunction
+
+  function void build_phase(uvm_phase phase);
+
+    tester_h   = new("tester_h", this);
+
+    coverage_h = new("coverage_h", this);
+
 
   endfunction
 
-  task run_phase(uvm_phase phase);
 
-    random_tester random_tester_h;
+  // task run_phase(uvm_phase phase);
 
-    coverage coverage_h;
+  //   random_tester random_tester_h;
 
-    scoreboard scoreboard_h;
+  //   coverage coverage_h;
 
-    phase.raise_objection(this);
+  //   scoreboard scoreboard_h;
 
-    random_tester_h = new(bfm);
+  //   phase.raise_objection(this);
 
-    coverage_h = new(bfm);
+  //   random_tester_h = new(bfm);
 
-    scoreboard_h = new(bfm);
+  //   coverage_h = new(bfm);
 
-    fork
+  //   scoreboard_h = new(bfm);
 
-      // forever
+  //   fork
 
-      coverage_h.execute();
+  //     // forever
 
-      scoreboard_h.execute();
+  //     coverage_h.execute();
 
-    join_none
+  //     scoreboard_h.execute();
 
-    random_tester_h.execute();
+  //   join_none
 
-    phase.drop_objection(this);
+  //   random_tester_h.execute();
 
-  endtask
+  //   phase.drop_objection(this);
+
+  // endtask
 
 endclass

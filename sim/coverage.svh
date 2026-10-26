@@ -1,7 +1,7 @@
 `ifndef COVERAGE_SVH
 `define COVERAGE_SVH
 
-class coverage;
+class coverage extends uvm_component;
 
   virtual tinyalu_bfm bfm;
 
@@ -86,33 +86,41 @@ class coverage;
   // zeros_or_ones_on_ops zeros;
   // es como un singleton
 
-  function new(virtual tinyalu_bfm bfm);
+  function new(string name, uvm_component parent);
 
-    this.bfm = bfm;
+    super.new(name, parent);
+
+    // here the tree es not made
 
     op_cov = new();
     zeros_or_ones_on_ops = new();
 
   endfunction
 
-  task execute();
+  function void build_phase(uvm_phase phase);
 
-    forever begin
+    if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
+      $fatal(2, "Couldnt get pointer to bfm");
+
+  endfunction
+
+  task run_phase(uvm_phase phase);
+
+    forever begin : sampling_block
 
       @(negedge bfm.clk);
 
-      // aqui estas conectando las variables del coverage con las variables del bus
       A = bfm.A;
+
       B = bfm.B;
 
       op_set = bfm.op_set;
 
-      // el sampler no puede ver el bus 
-
       op_cov.sample();
+
       zeros_or_ones_on_ops.sample();
 
-    end
+    end : sampling_block
 
   endtask
 

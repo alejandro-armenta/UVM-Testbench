@@ -1,15 +1,19 @@
 `ifndef TESTER_SVH
 `define TESTER_SVH
 
-class random_tester;
+class random_tester extends uvm_component;
+
+  `uvm_component_utils(random_tester)
 
   virtual tinyalu_bfm bfm;
 
-  function new(virtual tinyalu_bfm bfm);
-    this.bfm = bfm;
+  function new(string name, uvm_component parent);
+
+    super.new(name, parent);
+
   endfunction
 
-  function operation_t get_op();
+  virtual function operation_t get_op();
 
     bit [2:0] op_choice;
 
@@ -38,7 +42,7 @@ class random_tester;
 
   endfunction : get_op
 
-  function byte get_data();
+  virtual function byte get_data();
 
     bit [1:0] zero_ones;
 
@@ -62,16 +66,23 @@ class random_tester;
 
   endfunction : get_data
 
-  task execute();
+  function void build_phase(uvm_phase phase);
+    if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
+      $fatal(2, "Couldnt get pointer to bfm");
+  endfunction
+
+  task run_phase(uvm_phase phase);
 
     byte unsigned A;
     byte unsigned B;
 
     operation_t   op_set;
 
+    phase.raise_objection(this);
+
     bfm.reset_alu();
 
-    repeat (1000) begin
+    repeat (1000) begin : random_loop
 
       op_set = get_op();
 
@@ -81,9 +92,11 @@ class random_tester;
 
       bfm.send_op(A, B, op_set);
 
-    end
+    end : random_loop
 
     #500;
+
+    phase.drop_objection(this);
 
   endtask
 
