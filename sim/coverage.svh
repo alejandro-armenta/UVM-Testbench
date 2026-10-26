@@ -3,6 +3,8 @@
 
 class coverage extends uvm_component;
 
+  `uvm_component_utils(coverage)
+
   virtual tinyalu_bfm bfm;
 
   byte unsigned A;
@@ -32,11 +34,9 @@ class coverage extends uvm_component;
 
     }
 
-  endgroup
+  endgroup : op_cov
 
   covergroup zeros_or_ones_on_ops;
-
-    // aqui no esta definido el bin
 
     all_ops: coverpoint op_set {
 
@@ -79,30 +79,23 @@ class coverage extends uvm_component;
 
     }
 
-  endgroup
-
-  // no son tipos
-  // op_cov oc;
-  // zeros_or_ones_on_ops zeros;
-  // es como un singleton
+  endgroup : zeros_or_ones_on_ops
 
   function new(string name, uvm_component parent);
 
     super.new(name, parent);
 
-    // here the tree es not made
-
     op_cov = new();
     zeros_or_ones_on_ops = new();
 
-  endfunction
+  endfunction : new
 
   function void build_phase(uvm_phase phase);
 
     if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
       $fatal(2, "Couldnt get pointer to bfm");
 
-  endfunction
+  endfunction : build_phase
 
   task run_phase(uvm_phase phase);
 
@@ -122,8 +115,8 @@ class coverage extends uvm_component;
 
     end : sampling_block
 
-  endtask
+  endtask : run_phase
 
-endclass
+endclass : coverage
 
 `endif

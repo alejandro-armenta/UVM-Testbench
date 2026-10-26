@@ -1,21 +1,30 @@
 `ifndef SCOREBOARD_SVH
 `define SCOREBOARD_SVH
 
-class scoreboard;
+class scoreboard extends uvm_component;
+
+  `uvm_component_utils(scoreboard)
 
   virtual tinyalu_bfm bfm;
 
-  function new(virtual tinyalu_bfm bfm);
+  function new(string name, uvm_component parent);
 
-    this.bfm = bfm;
+    super.new(name, parent);
 
-  endfunction
+  endfunction : new
 
-  task execute();
+  function void build_phase(uvm_phase phase);
+
+    if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
+      $fatal(2, "Couldnt get pointer to bfm");
+
+  endfunction : build_phase
+
+  task run_phase(uvm_phase phase);
 
     shortint unsigned predicted;
 
-    forever begin
+    forever begin : self_checker
 
       @(posedge bfm.done);
 
@@ -42,10 +51,11 @@ class scoreboard;
 
       end
 
-    end
+    end : self_checker
 
-  endtask : execute
+  endtask : run_phase
 
-endclass
+
+endclass : scoreboard
 
 `endif

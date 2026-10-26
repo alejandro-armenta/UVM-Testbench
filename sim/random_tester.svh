@@ -11,7 +11,7 @@ class random_tester extends uvm_component;
 
     super.new(name, parent);
 
-  endfunction
+  endfunction : new
 
   virtual function operation_t get_op();
 
@@ -63,13 +63,14 @@ class random_tester extends uvm_component;
 
     end
 
-
   endfunction : get_data
 
   function void build_phase(uvm_phase phase);
+
     if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
       $fatal(2, "Couldnt get pointer to bfm");
-  endfunction
+
+  endfunction : build_phase
 
   task run_phase(uvm_phase phase);
 
@@ -98,8 +99,8 @@ class random_tester extends uvm_component;
 
     phase.drop_objection(this);
 
-  endtask
+  endtask : run_phase
 
-endclass
+endclass : random_tester
 
 `endif
