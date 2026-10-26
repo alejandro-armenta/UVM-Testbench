@@ -13,9 +13,18 @@ package tinyalu_pkg;
     rst_op = 3'b111
   } operation_t;
 
+  // el orden si importa
+
+  `include "base_tester.svh"
   `include "random_tester.svh"
-  `include "random_test.svh"
-  `include "coverage.svh"
+  `include "add_tester.svh"
+
   `include "scoreboard.svh"
+  `include "coverage.svh"
+
+  `include "env.svh"
+
+  `include "random_test.svh"
+
 
 endpackage
