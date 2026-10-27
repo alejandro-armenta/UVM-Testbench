@@ -83,6 +83,8 @@ interface tinyalu_bfm;
 
       rst_op: begin
 
+        // esperemos que funcione 
+
         reset_n = 0;
 
         @(negedge clk);

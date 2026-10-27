@@ -2,7 +2,7 @@ virtual class base_tester extends uvm_component;
 
   `uvm_component_utils(base_tester);
 
-  virtual tinyalu_bfm bfm;
+  uvm_put_port #(command_s) command_port;
 
   function new(string name, uvm_component parent);
 
@@ -16,9 +16,7 @@ virtual class base_tester extends uvm_component;
 
   function void build_phase(uvm_phase phase);
 
-    if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
-
-      $fatal(2, "Couldnt get pointer to bfm");
+    this.command_port = new("command_port", this);
 
   endfunction : build_phase
 
@@ -27,22 +25,22 @@ virtual class base_tester extends uvm_component;
 
     byte unsigned A;
     byte unsigned B;
+    operation_t op_set;
 
-    operation_t   op_set;
+    command_s command;
 
     phase.raise_objection(this);
 
-    bfm.reset_alu();
+    command.op = rst_op;
+    command_port.put(command);
 
     repeat (1000) begin : random_loop
 
-      op_set = get_op();
+      command.op = get_op();
+      command.A  = get_data();
+      command.B  = get_data();
 
-      A = get_data();
-
-      B = get_data();
-
-      bfm.send_op(A, B, op_set);
+      command_port.put(command);
 
     end : random_loop
 

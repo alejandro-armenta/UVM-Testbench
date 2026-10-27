@@ -40,5 +40,7 @@ package tinyalu_pkg;
   `include "random_test.svh"
   `include "add_test.svh"
 
+  `include "driver.svh"
+
 
 endpackage
