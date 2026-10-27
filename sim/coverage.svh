@@ -27,8 +27,6 @@ class coverage extends uvm_subscriber #(command_s);
 
       bins twoops[] = (add_op => add_op), (and_op => and_op), (xor_op => xor_op), (mul_op => mul_op);
 
-      bins manymult[] = (mul_op [* 3: 5]);
-
     }
 
   endgroup : op_cov

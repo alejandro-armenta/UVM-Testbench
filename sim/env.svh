@@ -34,7 +34,6 @@ class env extends uvm_env;
 
   function void connect_phase(uvm_phase phase);
 
-
     result_monitor_h.ap.connect(scoreboard_h.analysis_export);
 
     command_monitor_h.ap.connect(scoreboard_h.cmd_f.analysis_export);
@@ -42,5 +41,13 @@ class env extends uvm_env;
     command_monitor_h.ap.connect(coverage_h.analysis_export);
 
   endfunction
+
+  function void final_phase(uvm_phase phase);
+
+    command_monitor_h.ap.debug_connected_to();
+
+    result_monitor_h.ap.debug_connected_to();
+
+  endfunction : final_phase
 
 endclass

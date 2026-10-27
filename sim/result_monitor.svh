@@ -3,7 +3,7 @@ class result_monitor extends uvm_component;
 
   `uvm_component_utils(result_monitor)
 
-  uvm_analysis_port #(shortint) ap;
+  uvm_analysis_port #(shortint unsigned) ap;
 
   function new(string name, uvm_component parent);
 
@@ -24,7 +24,7 @@ class result_monitor extends uvm_component;
 
   endfunction : build_phase
 
-  function void write_to_monitor(shortint r);
+  function void write_to_monitor(shortint unsigned r);
     ap.write(r);
   endfunction
 

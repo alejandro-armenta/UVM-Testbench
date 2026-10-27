@@ -107,7 +107,6 @@ interface tinyalu_bfm;
 
   endtask : send_op
 
-
   always @(posedge start) begin : command_monitor_b
     command_monitor_h.write_to_monitor(A, B, operation_t'(op));
   end : command_monitor_b
