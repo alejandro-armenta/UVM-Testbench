@@ -5,18 +5,21 @@ interface tinyalu_bfm;
 
   import tinyalu_pkg::*;
 
-  byte unsigned        A;
-  byte unsigned        B;
+  command_monitor        command_monitor_h;
 
-  bit                  clk;
-  bit                  reset_n;
-  bit                  start;
 
-  operation_t          op_set;
+  byte unsigned          A;
+  byte unsigned          B;
 
-  logic         [ 2:0] op;
-  logic                done;
-  logic         [15:0] result;
+  bit                    clk;
+  bit                    reset_n;
+  bit                    start;
+
+  operation_t            op_set;
+
+  logic           [ 2:0] op;
+  logic                  done;
+  logic           [15:0] result;
 
   assign op = op_set;
 
@@ -103,7 +106,7 @@ interface tinyalu_bfm;
 
   endtask : send_op
 
-endinterface
+endinterface : tinyalu_bfm
 
 `endif
 

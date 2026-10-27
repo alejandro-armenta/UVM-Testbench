@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../uvmprimer/16_Analysis_Ports_In_the_Testbench"
 		}
 	],
 	"settings": {
