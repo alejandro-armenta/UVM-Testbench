@@ -4,15 +4,15 @@
 			"path": "."
 		},
 		{
-			"path": "../uvmprimer/16_Analysis_Ports_In_the_Testbench"
+			"path": "../uvmprimer/18_Put_and_Get_in_Action"
 		}
 	],
 	"settings": {
-		"editor.fontSize": 15,
+		"editor.fontSize": 13,
 		"workbench.editor.limit.enabled": true,
 		"workbench.editor.limit.perEditorGroup": true,
 		"workbench.editor.limit.value": 1,
-		"terminal.integrated.fontSize": 15,
+		"terminal.integrated.fontSize": 13,
 		"files.autoSave": "afterDelay",
 	}
 }
