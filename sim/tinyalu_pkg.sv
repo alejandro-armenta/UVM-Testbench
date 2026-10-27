@@ -38,5 +38,6 @@ package tinyalu_pkg;
   `include "add_test.svh"
 
   `include "command_monitor.svh"
+  `include "result_monitor.svh"
 
 endpackage

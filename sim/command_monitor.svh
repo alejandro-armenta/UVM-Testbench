@@ -27,5 +27,16 @@ class command_monitor extends uvm_component;
   endfunction : build_phase
 
 
+  function void write_to_monitor(byte A, byte B, operation_t op);
+
+    command_s cmd;
+
+    cmd.A  = A;
+    cmd.B  = B;
+    cmd.op = op;
+
+    ap.write(cmd);
+
+  endfunction
 
 endclass

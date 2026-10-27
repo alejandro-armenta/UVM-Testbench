@@ -1,16 +1,13 @@
 `ifndef COVERAGE_SVH
 `define COVERAGE_SVH
 
-class coverage extends uvm_component;
+class coverage extends uvm_subscriber #(command_s);
 
   `uvm_component_utils(coverage)
 
-  virtual tinyalu_bfm bfm;
-
   byte unsigned A;
   byte unsigned B;
-
-  operation_t op_set;
+  operation_t   op_set;
 
   covergroup op_cov;
 
@@ -90,32 +87,19 @@ class coverage extends uvm_component;
 
   endfunction : new
 
-  function void build_phase(uvm_phase phase);
+  function void write(command_s t);
 
-    if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
-      $fatal(2, "Couldnt get pointer to bfm");
+    A = t.A;
 
-  endfunction : build_phase
+    B = t.B;
 
-  task run_phase(uvm_phase phase);
+    op_set = t.op;
 
-    forever begin : sampling_block
+    op_cov.sample();
 
-      @(negedge bfm.clk);
+    zeros_or_ones_on_ops.sample();
 
-      A = bfm.A;
-
-      B = bfm.B;
-
-      op_set = bfm.op_set;
-
-      op_cov.sample();
-
-      zeros_or_ones_on_ops.sample();
-
-    end : sampling_block
-
-  endtask : run_phase
+  endfunction
 
 endclass : coverage
 

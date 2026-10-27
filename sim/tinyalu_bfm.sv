@@ -7,6 +7,7 @@ interface tinyalu_bfm;
 
   command_monitor        command_monitor_h;
 
+  result_monitor         result_monitor_h;
 
   byte unsigned          A;
   byte unsigned          B;
@@ -83,10 +84,10 @@ interface tinyalu_bfm;
       rst_op: begin
 
         reset_n = 0;
-        start   = 0;
 
         @(negedge clk);
 
+        start   = 0;
         reset_n = 1;
 
       end
@@ -105,6 +106,45 @@ interface tinyalu_bfm;
 
 
   endtask : send_op
+
+
+  always @(posedge clk) begin : command_monitor_b
+
+    static bit new_command;
+
+    if (!start) begin
+
+      new_command = 1;
+
+    end else begin
+
+      // esto hace que solo lo mande una vez
+      if (new_command) command_monitor_h.write_to_monitor(A, B, operation_t'(op));
+
+      new_command = 0;
+
+    end
+
+  end : command_monitor_b
+
+
+
+  always @(posedge clk) begin : result_monitor_b
+
+    static bit new_result;
+
+    if (!done) begin
+      new_result = 1;
+
+    end else begin
+
+      if (new_result) result_monitor_h.write_to_monitor(result);
+
+      new_result = 0;
+
+    end
+
+  end : result_monitor_b
 
 endinterface : tinyalu_bfm
 
