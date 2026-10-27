@@ -23,6 +23,8 @@ class random_test extends uvm_test;
   // this runs after run phase
   virtual function void extract_phase(uvm_phase phase);
 
+    $display("SUCCESS");
+
     uvm_top.print();
 
   endfunction : extract_phase

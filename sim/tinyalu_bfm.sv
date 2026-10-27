@@ -108,42 +108,12 @@ interface tinyalu_bfm;
   endtask : send_op
 
 
-  always @(posedge clk) begin : command_monitor_b
-
-    static bit new_command;
-
-    if (!start) begin
-
-      new_command = 1;
-
-    end else begin
-
-      // esto hace que solo lo mande una vez
-      if (new_command) command_monitor_h.write_to_monitor(A, B, operation_t'(op));
-
-      new_command = 0;
-
-    end
-
+  always @(posedge start) begin : command_monitor_b
+    command_monitor_h.write_to_monitor(A, B, operation_t'(op));
   end : command_monitor_b
 
-
-
-  always @(posedge clk) begin : result_monitor_b
-
-    static bit new_result;
-
-    if (!done) begin
-      new_result = 1;
-
-    end else begin
-
-      if (new_result) result_monitor_h.write_to_monitor(result);
-
-      new_result = 0;
-
-    end
-
+  always @(posedge done) begin : result_monitor_b
+    result_monitor_h.write_to_monitor(result);
   end : result_monitor_b
 
 endinterface : tinyalu_bfm

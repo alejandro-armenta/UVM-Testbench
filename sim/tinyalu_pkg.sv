@@ -32,12 +32,13 @@ package tinyalu_pkg;
   `include "scoreboard.svh"
   `include "coverage.svh"
 
+  `include "command_monitor.svh"
+  `include "result_monitor.svh"
+
   `include "env.svh"
 
   `include "random_test.svh"
   `include "add_test.svh"
 
-  `include "command_monitor.svh"
-  `include "result_monitor.svh"
 
 endpackage

@@ -27,13 +27,15 @@ class command_monitor extends uvm_component;
   endfunction : build_phase
 
 
-  function void write_to_monitor(byte A, byte B, operation_t op);
+  function void write_to_monitor(byte unsigned A, byte unsigned B, operation_t op);
 
     command_s cmd;
 
     cmd.A  = A;
     cmd.B  = B;
     cmd.op = op;
+
+    // $display("COMMAND MONITOR: %d %d %s", A, B, op.name());
 
     ap.write(cmd);
 

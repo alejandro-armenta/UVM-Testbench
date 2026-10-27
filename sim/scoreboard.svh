@@ -24,7 +24,11 @@ class scoreboard extends uvm_subscriber #(shortint);
     command_s cmd;
 
     do begin
+
+      // esta esta registrado al command monitor que imprime noop y reset op que no importan 
+
       if (!cmd_f.try_get(cmd)) $fatal(2, "No command in self checker");
+
     end while ((cmd.op == no_op) || (cmd.op == rst_op));
 
     case (cmd.op)
@@ -37,8 +41,8 @@ class scoreboard extends uvm_subscriber #(shortint);
     endcase
 
     if (predicted != t)
-
-      $error(
+      $fatal(
+          2,
           "Failed %0t A: %0h B: %0h op: %s result: %0h predicted: %0h",
           $time,
           cmd.A,
@@ -47,8 +51,6 @@ class scoreboard extends uvm_subscriber #(shortint);
           t,
           predicted
       );
-
-
 
   endfunction
 

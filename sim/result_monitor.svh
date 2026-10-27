@@ -28,6 +28,4 @@ class result_monitor extends uvm_component;
     ap.write(r);
   endfunction
 
-
-
 endclass
