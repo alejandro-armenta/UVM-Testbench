@@ -22,7 +22,7 @@ set UVM_TEST "random_test"
 
 puts "Launching Vivado Simulator in batch mode..."
 
-if {[catch { exec xsim $SNAPSHOT_NAME -cov_db_name $COV_NAME -cov_db_dir $COV_DIR -R -sv_seed $dynamic_seed -testplusarg UVM_TESTNAME=$UVM_TEST } sim_out]} {
+if {[catch { exec xsim $SNAPSHOT_NAME -cov_db_name $COV_NAME -cov_db_dir $COV_DIR -R -sv_seed $dynamic_seed -testplusarg UVM_TESTNAME=$UVM_TEST -testplusarg UVM_VERBOSITY=UVM_HIGH } sim_out]} {
     puts $sim_out
     error "ERROR: Simulation failed or exited with an error."
 } else {

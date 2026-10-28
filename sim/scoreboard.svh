@@ -21,6 +21,7 @@ class scoreboard extends uvm_subscriber #(shortint unsigned);
 
     shortint unsigned predicted;
     command_s cmd;
+    string data_str;
 
     do begin
       if (!cmd_f.try_get(cmd)) $fatal(2, "No command in self checker");
@@ -35,27 +36,19 @@ class scoreboard extends uvm_subscriber #(shortint unsigned);
 
     endcase
 
-    if (predicted != t)
-      $fatal(
-          2,
-          "Failed %0t A: %0h B: %0h op: %s result: %0h predicted: %0h",
-          $time,
-          cmd.A,
-          cmd.B,
-          cmd.op.name(),
-          t,
-          predicted
-      );
-    else
-      $display(
-          "SUCCESS %0t A: %0h B: %0h op: %s result: %0h predicted: %0h",
-          $time,
-          cmd.A,
-          cmd.B,
-          cmd.op.name(),
-          t,
-          predicted
-      );
+    data_str = $sformatf(
+        " %0t A: %2h B: %2h op: %0s result: %4h predicted: %4h",
+        $time,
+        cmd.A,
+        cmd.B,
+        cmd.op.name(),
+        t,
+        predicted
+    );
+
+    if (predicted != t) `uvm_error("SCOREBOARD", {"FAIL", data_str})
+    else `uvm_info("SCOREBOARD", {"PASS", data_str}, UVM_HIGH)
+
   endfunction : write
 
 endclass : scoreboard

@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../uvmprimer/18_Put_and_Get_in_Action"
+		},
+		{
+			"path": "../uvmprimer/19_UVM_Reporting"
 		}
 	],
 	"settings": {
@@ -14,5 +17,6 @@
 		"workbench.editor.limit.value": 1,
 		"terminal.integrated.fontSize": 13,
 		"files.autoSave": "afterDelay",
+		"terminal.integrated.scrollback": 5000,
 	}
 }
