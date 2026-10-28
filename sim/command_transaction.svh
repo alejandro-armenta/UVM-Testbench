@@ -27,6 +27,13 @@ class command_transaction extends uvm_transaction;
     };
   }
 
+
+  function new(string name = "");
+
+    super.new(name);
+
+  endfunction
+
   function void do_copy(uvm_object rhs);
 
     command_transaction rhs_transaction;
@@ -48,10 +55,45 @@ class command_transaction extends uvm_transaction;
 
   endfunction
 
-  function new(string name = "");
+  function command_transaction clone_me();
+    // moocow
 
-    super.new(name);
+    // desde mi y el otro empieza desde otro objeto
+
+    command_transaction b;
+
+    uvm_object a;
+
+    a = this.clone();
+
+    // safacast 
+
+    $cast(b, a);
+
+    return b;
 
   endfunction
+
+  function bit do_compare(uvm_object rhs, uvm_comparer comparer);
+
+    command_transaction rhs_transaction;
+
+    bit same;
+
+    if (rhs == null)
+      `uvm_fatal("COMMAND_TRANSACTION", "Tried to do a comparison to a null pointer.")
+
+    if ($cast(rhs_transaction, rhs)) return same;
+
+    // deep compare 
+
+    same = super.do_compare(rhs, comparer) && (this.A == rhs_transaction.A) &&
+        (this.B == rhs_transaction.B) && (this.op == rhs_transaction.op);
+
+    return same;
+
+  endfunction
+
+
 
 endclass
