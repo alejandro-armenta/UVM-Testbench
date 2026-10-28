@@ -1,6 +1,3 @@
-
-// uvm_transaction extends uvm_object
-
 class command_transaction extends uvm_transaction;
 
   `uvm_object_utils(command_transaction)
@@ -32,7 +29,7 @@ class command_transaction extends uvm_transaction;
 
     super.new(name);
 
-  endfunction
+  endfunction : new
 
   function void do_copy(uvm_object rhs);
 
@@ -53,7 +50,7 @@ class command_transaction extends uvm_transaction;
 
     this.op = rhs_transaction.op;
 
-  endfunction
+  endfunction : do_copy
 
   function command_transaction clone_me();
     // moocow
@@ -72,7 +69,7 @@ class command_transaction extends uvm_transaction;
 
     return b;
 
-  endfunction
+  endfunction : clone_me
 
   function bit do_compare(uvm_object rhs, uvm_comparer comparer);
 
@@ -92,8 +89,25 @@ class command_transaction extends uvm_transaction;
 
     return same;
 
-  endfunction
+  endfunction : do_compare
 
+  function string convert2string();
 
+    string a;
+
+    a = $sformatf("A: %2h B: %2h op: %s", this.A, this.B, this.op.name());
+
+    return a;
+
+  endfunction : convert2string
 
 endclass
+
+
+
+
+
+
+
+
+

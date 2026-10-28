@@ -4,9 +4,6 @@
 			"path": "."
 		},
 		{
-			"path": "../uvmprimer/19_UVM_Reporting"
-		},
-		{
 			"path": "../uvmprimer/21_UVM_Transactions"
 		}
 	],
