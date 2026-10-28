@@ -8,7 +8,7 @@
 		}
 	],
 	"settings": {
-		"editor.fontSize": 13,
+		"editor.fontSize": 12,
 		"workbench.editor.limit.enabled": true,
 		"workbench.editor.limit.perEditorGroup": true,
 		"workbench.editor.limit.value": 1,
