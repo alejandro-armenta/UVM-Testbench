@@ -13,15 +13,17 @@ package tinyalu_pkg;
     rst_op = 3'b111
   } operation_t;
 
-  typedef struct {
+  // typedef struct {
 
-    byte unsigned A;
-    byte unsigned B;
-    operation_t   op;
+  //   byte unsigned A;
+  //   byte unsigned B;
+  //   operation_t   op;
 
-  } command_s;
+  // } command_s;
 
   // el orden si importa
+
+  `include "command_transaction.svh"
 
   `include "base_tester.svh"
 
