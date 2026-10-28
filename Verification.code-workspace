@@ -4,9 +4,6 @@
 			"path": "."
 		},
 		{
-			"path": "../uvmprimer/18_Put_and_Get_in_Action"
-		},
-		{
 			"path": "../uvmprimer/19_UVM_Reporting"
 		}
 	],

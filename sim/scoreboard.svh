@@ -46,8 +46,10 @@ class scoreboard extends uvm_subscriber #(shortint unsigned);
         predicted
     );
 
-    if (predicted != t) `uvm_error("SCOREBOARD", {"FAIL", data_str})
-    else `uvm_info("SCOREBOARD", {"PASS", data_str}, UVM_HIGH)
+    // es una concatenacion
+
+    if (predicted != t) `uvm_error("SCOREBOARD", {"\nFAIL", data_str})
+    else `uvm_info("SCOREBOARD", {"\nPASS", data_str}, UVM_HIGH)
 
   endfunction : write
 
