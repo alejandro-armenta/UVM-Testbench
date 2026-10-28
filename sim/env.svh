@@ -4,11 +4,15 @@ class env extends uvm_env;
   `uvm_component_utils(env)
 
   base_tester tester_h;
+
+  uvm_tlm_fifo #(command_s) command_f;
+
+  driver driver_h;
+
   coverage coverage_h;
   scoreboard scoreboard_h;
 
   command_monitor command_monitor_h;
-
   result_monitor result_monitor_h;
 
   function new(string name, uvm_component parent);
@@ -29,8 +33,11 @@ class env extends uvm_env;
 
     this.result_monitor_h = result_monitor::type_id::create("result_monitor_h", this);
 
-  endfunction : build_phase
+    this.driver_h = driver::type_id::create("driver_h", this);
 
+    this.command_f = new("command_f", this);
+
+  endfunction : build_phase
 
   function void connect_phase(uvm_phase phase);
 
@@ -39,6 +46,12 @@ class env extends uvm_env;
     command_monitor_h.ap.connect(scoreboard_h.cmd_f.analysis_export);
 
     command_monitor_h.ap.connect(coverage_h.analysis_export);
+
+    // aqui se conecta de manera diferente 
+
+    tester_h.command_port.connect(command_f.put_export);
+
+    driver_h.command_port.connect(command_f.get_export);
 
   endfunction
 

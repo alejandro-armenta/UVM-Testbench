@@ -21,6 +21,8 @@ virtual class base_tester extends uvm_component;
   endfunction : build_phase
 
 
+  // va a correr esta funcion pero con sus funciones polimorficas
+
   task run_phase(uvm_phase phase);
 
     byte unsigned A;

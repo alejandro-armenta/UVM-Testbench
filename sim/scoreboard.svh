@@ -20,13 +20,10 @@ class scoreboard extends uvm_subscriber #(shortint unsigned);
   function void write(shortint unsigned t);
 
     shortint unsigned predicted;
-
     command_s cmd;
 
     do begin
-
       if (!cmd_f.try_get(cmd)) $fatal(2, "No command in self checker");
-
     end while ((cmd.op == no_op) || (cmd.op == rst_op));
 
     case (cmd.op)
@@ -59,9 +56,7 @@ class scoreboard extends uvm_subscriber #(shortint unsigned);
           t,
           predicted
       );
-
-  endfunction
-
+  endfunction : write
 
 endclass : scoreboard
 
