@@ -13,16 +13,6 @@ package tinyalu_pkg;
     rst_op = 3'b111
   } operation_t;
 
-  // typedef struct {
-
-  //   byte unsigned A;
-  //   byte unsigned B;
-  //   operation_t   op;
-
-  // } command_s;
-
-  // el orden si importa
-
   `include "command_transaction.svh"
 
   `include "result_transaction.svh"
@@ -30,10 +20,6 @@ package tinyalu_pkg;
   `include "add_transaction.svh"
 
   `include "tester.svh"
-
-  // `include "random_tester.svh"
-
-  // `include "add_tester.svh"
 
   `include "scoreboard.svh"
   `include "coverage.svh"

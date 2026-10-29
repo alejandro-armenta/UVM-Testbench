@@ -16,6 +16,32 @@ class tester extends uvm_component;
 
   endfunction : build_phase
 
+  function void verify_command(command_transaction command);
+
+    assert(
+    
+    command.op == no_op ||
+    
+    command.op == add_op ||
+    
+    command.op == and_op ||
+    
+    command.op == xor_op ||
+    
+    command.op == mul_op ||
+    
+    command.op == rst_op || 
+    
+    (command.A >= 8'h00 && command.A <= 8'hFF) ||
+    
+    (command.B >= 8'h00 && command.B <= 8'hFF)
+    
+    )
+
+    else `uvm_fatal("TESTER", "invalid stimulus.")
+
+  endfunction
+
   task run_phase(uvm_phase phase);
 
     command_transaction command;
@@ -32,6 +58,8 @@ class tester extends uvm_component;
 
       assert (command.randomize());
 
+      verify_command(command);
+
       command_port.put(command);
 
     end : random_loop
@@ -41,7 +69,5 @@ class tester extends uvm_component;
     phase.drop_objection(this);
 
   endtask : run_phase
-
-
 
 endclass

@@ -3,7 +3,9 @@ class result_monitor extends uvm_component;
 
   `uvm_component_utils(result_monitor)
 
-  uvm_analysis_port #(shortint unsigned) ap;
+  virtual tinyalu_bfm bfm;
+
+  uvm_analysis_port #(result_transaction) ap;
 
   function new(string name, uvm_component parent);
 
@@ -12,8 +14,6 @@ class result_monitor extends uvm_component;
   endfunction : new
 
   function void build_phase(uvm_phase phase);
-
-    virtual tinyalu_bfm bfm;
 
     if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
       $fatal(2, "Couldnt get pointer to bfm");
@@ -25,7 +25,17 @@ class result_monitor extends uvm_component;
   endfunction : build_phase
 
   function void write_to_monitor(shortint unsigned r);
-    ap.write(r);
+
+    result_transaction result_t;
+
+    // porque este nunca lo quieres cambiar 
+
+    result_t = new("result_t");
+
+    result_t.result = r;
+
+    ap.write(result_t);
+
   endfunction
 
 endclass

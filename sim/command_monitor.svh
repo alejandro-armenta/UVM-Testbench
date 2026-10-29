@@ -29,8 +29,10 @@ class command_monitor extends uvm_component;
 
     command_transaction command;
 
-    command.A  = A;
-    command.B  = B;
+    command = new("command");
+
+    command.A = A;
+    command.B = B;
     command.op = op;
 
     ap.write(command);

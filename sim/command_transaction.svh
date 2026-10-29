@@ -14,13 +14,13 @@ class command_transaction extends uvm_transaction;
 
     A dist {
       8'h00 := 1,
-      [8'h01 : 8'hFE] := 1,
+      [8'h01 : 8'hFE] :/ 1,
       8'hFF := 1
     };
 
     B dist {
       8'h00 := 1,
-      [8'h01 : 8'hFE] := 1,
+      [8'h01 : 8'hFE] :/ 1,
       8'hFF := 1
     };
   }
@@ -77,9 +77,7 @@ class command_transaction extends uvm_transaction;
     if (rhs == null)
       `uvm_fatal("COMMAND_TRANSACTION", "Tried to do a comparison to a null pointer.")
 
-    if ($cast(rhs_transaction, rhs)) return same;
-
-    // deep compare 
+    if (!$cast(rhs_transaction, rhs)) return same;
 
     same = super.do_compare(rhs, comparer) && (this.A == rhs_transaction.A) &&
         (this.B == rhs_transaction.B) && (this.op == rhs_transaction.op);

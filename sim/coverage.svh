@@ -1,7 +1,7 @@
 `ifndef COVERAGE_SVH
 `define COVERAGE_SVH
 
-class coverage extends uvm_subscriber #(command_s);
+class coverage extends uvm_subscriber #(command_transaction);
 
   `uvm_component_utils(coverage)
 
@@ -26,6 +26,8 @@ class coverage extends uvm_subscriber #(command_s);
       bins mul_sngl[] = (mul_op => add_op), (mul_op => and_op), (mul_op => xor_op), (mul_op => no_op);
 
       bins twoops[] = (add_op => add_op), (and_op => and_op), (xor_op => xor_op), (mul_op => mul_op);
+
+    // bins manymult = (mul_op [* 3: 5]);
 
     }
 
@@ -85,7 +87,7 @@ class coverage extends uvm_subscriber #(command_s);
 
   endfunction : new
 
-  function void write(command_s t);
+  function void write(command_transaction t);
 
     A = t.A;
 

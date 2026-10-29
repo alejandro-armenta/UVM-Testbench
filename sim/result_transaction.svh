@@ -2,8 +2,7 @@ class result_transaction extends uvm_transaction;
 
   `uvm_object_utils(result_transaction)
 
-  shortint result;
-
+  shortint unsigned result;
 
   function new(string name = "");
     super.new(name);
@@ -51,9 +50,7 @@ class result_transaction extends uvm_transaction;
 
     if (rhs == null) `uvm_fatal("RESULT_TRANSACTION", "Tried to do a comparison to a null pointer.")
 
-    if ($cast(rhs_transaction, rhs)) return same;
-
-    // deep compare 
+    if (!$cast(rhs_transaction, rhs)) return same;
 
     same = super.do_compare(rhs, comparer) && (this.result == rhs_transaction.result);
 

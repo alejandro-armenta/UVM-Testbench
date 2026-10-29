@@ -1,11 +1,11 @@
 `ifndef SCOREBOARD_SVH
 `define SCOREBOARD_SVH
 
-class scoreboard extends uvm_subscriber #(shortint unsigned);
+class scoreboard extends uvm_subscriber #(result_transaction);
 
   `uvm_component_utils(scoreboard)
 
-  uvm_tlm_analysis_fifo #(command_s) cmd_f;
+  uvm_tlm_analysis_fifo #(command_transaction) cmd_f;
 
   function new(string name, uvm_component parent);
 
@@ -17,39 +17,68 @@ class scoreboard extends uvm_subscriber #(shortint unsigned);
     cmd_f = new("cmd_f", this);
   endfunction
 
-  function void write(shortint unsigned t);
+  function compare(command_transaction cmd, result_transaction predicted,
+                   result_transaction result);
 
-    shortint unsigned predicted;
-    command_s cmd;
     string data_str;
 
-    do begin
-      if (!cmd_f.try_get(cmd)) $fatal(2, "No command in self checker");
-    end while ((cmd.op == no_op) || (cmd.op == rst_op));
+    if (cmd == null || predicted == null || result == null)
+      `uvm_fatal("SCOREBOARD", "Invalid value to compare.")
+
+
+    data_str = {
+
+      cmd.convert2string(),
+
+      " ===> Actual ",
+
+      result.convert2string(),
+
+      " Predicted ",
+
+      predicted.convert2string()
+
+    };
+
+    if (!predicted.compare(result)) `uvm_error("SCOREBOARD", {"\nFAIL ", data_str})
+
+    else `uvm_info("SCOREBOARD", {"\nPASS ", data_str}, UVM_HIGH)
+
+  endfunction : compare
+
+  function result_transaction predict_result(command_transaction cmd);
+
+    result_transaction predicted;
+
+    predicted = new("predicted");
 
     case (cmd.op)
 
-      add_op: predicted = cmd.A + cmd.B;
-      and_op: predicted = cmd.A & cmd.B;
-      xor_op: predicted = cmd.A ^ cmd.B;
-      mul_op: predicted = cmd.A * cmd.B;
+      add_op: predicted.result = cmd.A + cmd.B;
+      and_op: predicted.result = cmd.A & cmd.B;
+      xor_op: predicted.result = cmd.A ^ cmd.B;
+      mul_op: predicted.result = cmd.A * cmd.B;
 
     endcase
 
-    data_str = $sformatf(
-        " %0t A: %2h B: %2h op: %0s result: %4h predicted: %4h",
-        $time,
-        cmd.A,
-        cmd.B,
-        cmd.op.name(),
-        t,
-        predicted
-    );
+    return predicted;
 
-    // es una concatenacion
+  endfunction
 
-    if (predicted != t) `uvm_error("SCOREBOARD", {"\nFAIL", data_str})
-    else `uvm_info("SCOREBOARD", {"\nPASS", data_str}, UVM_HIGH)
+  function void write(result_transaction t);
+
+    result_transaction  predicted;
+    command_transaction cmd;
+
+    do begin
+
+      if (!cmd_f.try_get(cmd)) `uvm_fatal("SCOREBOARD", "No command in self checker")
+
+    end while ((cmd.op == no_op) || (cmd.op == rst_op));
+
+    predicted = this.predict_result(cmd);
+
+    void'(this.compare(cmd, predicted, t));
 
   endfunction : write
 

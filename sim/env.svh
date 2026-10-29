@@ -8,17 +8,17 @@ class env extends uvm_env;
 
 
 
-  tester tester_h;
+
   coverage coverage_h;
   scoreboard scoreboard_h;
-
-  driver driver_h;
 
   command_monitor command_monitor_h;
   result_monitor result_monitor_h;
 
-  uvm_tlm_fifo #(command_s) command_f;
+  driver driver_h;
+  tester tester_h;
 
+  uvm_tlm_fifo #(command_transaction) command_f;
 
   function new(string name, uvm_component parent);
 
@@ -60,16 +60,17 @@ class env extends uvm_env;
 
   endfunction
 
-  function void final_phase(uvm_phase phase);
 
-    command_monitor_h.ap.debug_connected_to();
+  // function void final_phase(uvm_phase phase);
 
-    result_monitor_h.ap.debug_connected_to();
+  //   command_monitor_h.ap.debug_connected_to();
 
-  endfunction : final_phase
+  //   result_monitor_h.ap.debug_connected_to();
+
+  // endfunction : final_phase
 
   function void end_of_elaboration_phase(uvm_phase phase);
-    scoreboard_h.set_report_verbosity_level_hier(UVM_HIGH);
+    // scoreboard_h.set_report_verbosity_level_hier(UVM_HIGH);
   endfunction
 
 endclass
