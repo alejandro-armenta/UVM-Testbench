@@ -1,7 +1,8 @@
 class command_transaction extends uvm_transaction;
 
   `uvm_object_utils(command_transaction)
-  // un objecto no tiene fases
+
+  // ahora lo hace el compilador envez de nosotros
 
   rand byte unsigned A;
 
@@ -54,17 +55,12 @@ class command_transaction extends uvm_transaction;
   endfunction : do_copy
 
   function command_transaction clone_me();
-    // moocow
-
-    // desde mi y el otro empieza desde otro objeto
 
     command_transaction b;
 
     uvm_object a;
 
     a = this.clone();
-
-    // safacast 
 
     $cast(b, a);
 

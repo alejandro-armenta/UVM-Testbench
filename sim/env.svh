@@ -3,17 +3,22 @@ class env extends uvm_env;
 
   `uvm_component_utils(env)
 
-  base_tester tester_h;
 
-  uvm_tlm_fifo #(command_s) command_f;
+  // base_tester tester_h;
 
-  driver driver_h;
 
+
+  tester tester_h;
   coverage coverage_h;
   scoreboard scoreboard_h;
 
+  driver driver_h;
+
   command_monitor command_monitor_h;
   result_monitor result_monitor_h;
+
+  uvm_tlm_fifo #(command_s) command_f;
+
 
   function new(string name, uvm_component parent);
 
@@ -23,7 +28,7 @@ class env extends uvm_env;
 
   virtual function void build_phase(uvm_phase phase);
 
-    this.tester_h = base_tester::type_id::create("tester_h", this);
+    this.tester_h = tester::type_id::create("tester_h", this);
 
     this.coverage_h = coverage::type_id::create("coverage_h", this);
 

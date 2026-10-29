@@ -22,8 +22,6 @@ class tester extends uvm_component;
 
     phase.raise_objection(this);
 
-    // la diferencia esq este no se puede desconfigurar a otro tipo y el otro si
-
     command = new("command");
     command.op = rst_op;
     command_port.put(command);
