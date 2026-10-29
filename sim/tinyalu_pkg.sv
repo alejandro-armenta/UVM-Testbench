@@ -29,11 +29,11 @@ package tinyalu_pkg;
 
   `include "add_transaction.svh"
 
-  `include "base_tester.svh"
+  `include "tester.svh"
 
-  `include "random_tester.svh"
+  // `include "random_tester.svh"
 
-  `include "add_tester.svh"
+  // `include "add_tester.svh"
 
   `include "scoreboard.svh"
   `include "coverage.svh"
