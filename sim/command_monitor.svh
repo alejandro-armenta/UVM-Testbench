@@ -3,7 +3,9 @@ class command_monitor extends uvm_component;
 
   `uvm_component_utils(command_monitor)
 
-  uvm_analysis_port #(command_s) ap;
+  virtual tinyalu_bfm bfm;
+  uvm_analysis_port #(command_transaction) ap;
+
 
   function new(string name, uvm_component parent);
 
@@ -11,14 +13,10 @@ class command_monitor extends uvm_component;
 
   endfunction : new
 
-  // separo el resultado del comando y los operandos
-
   function void build_phase(uvm_phase phase);
 
-    virtual tinyalu_bfm bfm;
-
     if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
-      $fatal(2, "Couldnt get pointer to bfm");
+      `uvm_fatal("COMMAND_MONITOR", "Failed to get BFM.")
 
     bfm.command_monitor_h = this;
 
@@ -29,15 +27,13 @@ class command_monitor extends uvm_component;
 
   function void write_to_monitor(byte unsigned A, byte unsigned B, operation_t op);
 
-    command_s cmd;
+    command_transaction command;
 
-    cmd.A  = A;
-    cmd.B  = B;
-    cmd.op = op;
+    command.A  = A;
+    command.B  = B;
+    command.op = op;
 
-    // $display("COMMAND MONITOR: %d %d %s", A, B, op.name());
-
-    ap.write(cmd);
+    ap.write(command);
 
   endfunction
 
