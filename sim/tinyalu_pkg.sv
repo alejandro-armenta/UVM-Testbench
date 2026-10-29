@@ -27,6 +27,8 @@ package tinyalu_pkg;
 
   `include "result_transaction.svh"
 
+  `include "add_transaction.svh"
+
   `include "base_tester.svh"
 
   `include "random_tester.svh"

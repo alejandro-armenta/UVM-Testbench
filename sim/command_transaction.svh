@@ -24,6 +24,7 @@ class command_transaction extends uvm_transaction;
     };
   }
 
+  // este no tiene constraints en base a op
 
   function new(string name = "");
 
