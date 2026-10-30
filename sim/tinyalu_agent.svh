@@ -26,11 +26,6 @@ class tinyalu_agent extends uvm_agent;
 
   virtual function void build_phase(uvm_phase phase);
 
-
-
-
-
-
     if (get_is_active() == UVM_ACTIVE) begin
 
       this.command_f = new("command_f", this);
@@ -59,6 +54,34 @@ class tinyalu_agent extends uvm_agent;
     this.result_ap = new("result_ap", this);
 
   endfunction : build_phase
+
+  function void connect_phase(uvm_phase phase);
+
+    result_monitor_h.ap.connect(scoreboard_h.analysis_export);
+
+    command_monitor_h.ap.connect(scoreboard_h.cmd_f.analysis_export);
+
+    command_monitor_h.ap.connect(coverage_h.analysis_export);
+
+    // aqui se conecta de manera diferente 
+
+    tester_h.command_port.connect(command_f.put_export);
+
+    driver_h.command_port.connect(command_f.get_export);
+
+  endfunction : connect_phase
+
+  // function void final_phase(uvm_phase phase);
+
+  //   command_monitor_h.ap.debug_connected_to();
+
+  //   result_monitor_h.ap.debug_connected_to();
+
+  // endfunction : final_phase
+
+  function void end_of_elaboration_phase(uvm_phase phase);
+    // scoreboard_h.set_report_verbosity_level_hier(UVM_HIGH);
+  endfunction
 
 
 endclass
