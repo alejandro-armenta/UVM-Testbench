@@ -3,7 +3,10 @@ class result_monitor extends uvm_component;
 
   `uvm_component_utils(result_monitor)
 
-  virtual tinyalu_bfm bfm;
+
+  tinyalu_agent_config config_h;
+
+  // virtual tinyalu_bfm bfm;
 
   uvm_analysis_port #(result_transaction) ap;
 
@@ -15,20 +18,20 @@ class result_monitor extends uvm_component;
 
   function void build_phase(uvm_phase phase);
 
-    if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
-      $fatal(2, "Couldnt get pointer to bfm");
+    if (!uvm_config_db#(tinyalu_agent_config)::get(this, "", "config", this.config_h))
+      $fatal(2, "Failed to get the agent configuration.");
 
-    bfm.result_monitor_h = this;
+    this.config_h.bfm.result_monitor_h = this;
 
     ap = new("ap", this);
 
   endfunction : build_phase
 
+  // lo configuras para que sea llamado por el bfm
+
   function void write_to_monitor(shortint unsigned r);
 
     result_transaction result_t;
-
-    // porque este nunca lo quieres cambiar 
 
     result_t = new("result_t");
 

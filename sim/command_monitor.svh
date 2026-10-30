@@ -3,9 +3,9 @@ class command_monitor extends uvm_component;
 
   `uvm_component_utils(command_monitor)
 
-  virtual tinyalu_bfm bfm;
-  uvm_analysis_port #(command_transaction) ap;
+  tinyalu_agent_config config_h;
 
+  uvm_analysis_port #(command_transaction) ap;
 
   function new(string name, uvm_component parent);
 
@@ -15,15 +15,14 @@ class command_monitor extends uvm_component;
 
   function void build_phase(uvm_phase phase);
 
-    if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
-      `uvm_fatal("COMMAND_MONITOR", "Failed to get BFM.")
+    if (!uvm_config_db#(tinyalu_agent_config)::get(this, "", "config", this.config_h))
+      `uvm_fatal("COMMAND_MONITOR", "Failed to get agent configuration.")
 
-    bfm.command_monitor_h = this;
+    this.config_h.bfm.command_monitor_h = this;
 
     ap = new("ap", this);
 
   endfunction : build_phase
-
 
   function void write_to_monitor(byte unsigned A, byte unsigned B, operation_t op);
 
