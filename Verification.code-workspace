@@ -12,7 +12,7 @@
 		"workbench.editor.limit.enabled": true,
 		"workbench.editor.limit.perEditorGroup": true,
 		"workbench.editor.limit.value": 1,
-		"terminal.integrated.fontSize": 13,
+		"terminal.integrated.fontSize": 12,
 		"files.autoSave": "afterDelay",
 		"terminal.integrated.scrollback": 5000,
 	}

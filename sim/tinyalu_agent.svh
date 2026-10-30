@@ -26,6 +26,19 @@ class tinyalu_agent extends uvm_agent;
 
   virtual function void build_phase(uvm_phase phase);
 
+    // realmente no es nombre de instancia 
+
+    // hay otro objeto que se llama config pero este no lo puede ver 
+
+    // aqui estas agarrando la configuracion es dinamico puedes crear agentes observadores o actuadores dependiendo de la configuracion entonces solo escribes una clase que cambia su accion en base a la configuracion que le pasas por medio de la base de datos 
+
+    if (!uvm_config_db#(tinyalu_agent_config)::get(this, "", "config", this.config_h))
+      `uvm_fatal("AGENT", "Failed to get config object.");
+
+
+    is_active = this.config_h.get_is_active();
+
+
     if (get_is_active() == UVM_ACTIVE) begin
 
       this.command_f = new("command_f", this);
@@ -36,9 +49,6 @@ class tinyalu_agent extends uvm_agent;
 
     end
 
-    // /////////////////////////////////////////////////////////
-
-
     this.coverage_h = coverage::type_id::create("coverage_h", this);
 
     this.scoreboard_h = scoreboard::type_id::create("scoreboard_h", this);
@@ -46,8 +56,6 @@ class tinyalu_agent extends uvm_agent;
     this.command_monitor_h = command_monitor::type_id::create("command_monitor_h", this);
 
     this.result_monitor_h = result_monitor::type_id::create("result_monitor_h", this);
-
-    // ///////////////////////////////////////////////////////
 
     this.cmd_mon_ap = new("cmd_mon_ap", this);
 
