@@ -51,7 +51,7 @@ tinyalu_bfm class_bfm ();
     uvm_config_db#(virtual interface tinyalu_bfm)::set(null, "*", "class_bfm", class_bfm);
     uvm_config_db#(virtual interface tinyalu_bfm)::set(null, "*", "module_bfm", module_bfm);
 
-    run_test("dual_test");
+    run_test();
 
   end
 

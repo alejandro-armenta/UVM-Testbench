@@ -26,10 +26,6 @@ class dual_test extends uvm_test;
 
     env_config_h = new(class_bfm, module_bfm);
 
-    // it passes the config class to environment class and any subcomponents 
-
-    // es el nombre de la instancia no el de la clase 
-
     uvm_config_db#(env_config)::set(this, "env_h*", "env_config_h", env_config_h);
 
     this.env_h = env::type_id::create("env_h", this);

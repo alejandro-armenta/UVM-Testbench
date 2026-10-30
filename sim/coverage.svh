@@ -1,6 +1,9 @@
 `ifndef COVERAGE_SVH
 `define COVERAGE_SVH
 
+
+// este tambien es un sink
+
 class coverage extends uvm_subscriber #(command_transaction);
 
   `uvm_component_utils(coverage)
@@ -52,7 +55,7 @@ class coverage extends uvm_subscriber #(command_transaction);
     }
 
     // 36 combinanciones
-    cross a_leg, b_leg, all_ops{
+    op_00_FF: cross a_leg, b_leg, all_ops{
 
       bins add_00            = binsof (all_ops) intersect {add_op} && (binsof (a_leg.zeros) || binsof (b_leg.zeros));
 

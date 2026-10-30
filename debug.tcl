@@ -18,7 +18,7 @@ set COV_NAME "DB1"
 
 set COV_DIR "./xsim.covdata"
 
-set UVM_TEST "random_test"
+set UVM_TEST "dual_test"
 
 puts "Launching Vivado Simulator in batch mode..."
 

@@ -1,9 +1,11 @@
-`ifndef SCOREBOARD_SVH
-`define SCOREBOARD_SVH
 
 class scoreboard extends uvm_subscriber #(result_transaction);
 
+  // este es un sink y llega desde el ap de result monitor
+
   `uvm_component_utils(scoreboard)
+
+  // command monitor sink
 
   uvm_tlm_analysis_fifo #(command_transaction) cmd_f;
 
@@ -40,9 +42,9 @@ class scoreboard extends uvm_subscriber #(result_transaction);
 
     };
 
-    if (!predicted.compare(result)) `uvm_error("SCOREBOARD", {"\nFAIL ", data_str})
+    if (!predicted.compare(result)) `uvm_fatal("SCOREBOARD", {"\nFAIL ", data_str})
 
-    else `uvm_info("SCOREBOARD", {"\nPASS ", data_str}, UVM_HIGH)
+    else `uvm_info("SCOREBOARD", {"\nPASS ", data_str}, UVM_MEDIUM)
 
   endfunction : compare
 
@@ -83,5 +85,3 @@ class scoreboard extends uvm_subscriber #(result_transaction);
   endfunction : write
 
 endclass : scoreboard
-
-`endif

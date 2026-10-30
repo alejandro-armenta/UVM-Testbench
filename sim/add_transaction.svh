@@ -1,3 +1,5 @@
+
+
 class add_transaction extends command_transaction;
 
   `uvm_object_utils(add_transaction)
@@ -8,10 +10,6 @@ class add_transaction extends command_transaction;
 
   endfunction
 
-  // entonces no lo borra
-
   constraint add_only {op == add_op;}
 
 endclass
-
-// esto es perfecto
