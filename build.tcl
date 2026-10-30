@@ -12,15 +12,13 @@ set SNAPSHOT_NAME "snapshot"
 
 set OUTPUT_DIR "./build"  
 
-if {[file exists $OUTPUT_DIR]} {
-    file delete -force $OUTPUT_DIR
-}
+# if {[file exists $OUTPUT_DIR]} {
+#     file delete -force $OUTPUT_DIR
+# }
 
-file mkdir $OUTPUT_DIR
+# file mkdir $OUTPUT_DIR
 
 cd $OUTPUT_DIR
-
-
 
 # Function to generate a .prj file and compile it safely
 proc compile_library {lib_name files} {

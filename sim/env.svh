@@ -3,12 +3,6 @@ class env extends uvm_env;
 
   `uvm_component_utils(env)
 
-
-  // base_tester tester_h;
-
-
-
-
   coverage coverage_h;
   scoreboard scoreboard_h;
 

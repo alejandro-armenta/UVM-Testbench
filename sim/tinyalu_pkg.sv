@@ -13,6 +13,9 @@ package tinyalu_pkg;
     rst_op = 3'b111
   } operation_t;
 
+  `include "tinyalu_agent_config.svh"
+
+
   `include "command_transaction.svh"
 
   `include "result_transaction.svh"
@@ -28,6 +31,8 @@ package tinyalu_pkg;
   `include "result_monitor.svh"
 
   `include "driver.svh"
+
+  `include "tinyalu_agent.svh"
 
   `include "env.svh"
 

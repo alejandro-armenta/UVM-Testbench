@@ -4,7 +4,7 @@
 			"path": "."
 		},
 		{
-			"path": "../uvmprimer/21_UVM_Transactions"
+			"path": "../uvmprimer/22_UVM_Agents"
 		}
 	],
 	"settings": {
