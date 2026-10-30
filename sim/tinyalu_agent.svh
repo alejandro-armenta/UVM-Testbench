@@ -8,8 +8,8 @@ class tinyalu_agent extends uvm_agent;
     super.new(name, parent);
   endfunction
 
-  driver driver_h;
   tester tester_h;
+  driver driver_h;
 
   coverage coverage_h;
   scoreboard scoreboard_h;
@@ -25,12 +25,6 @@ class tinyalu_agent extends uvm_agent;
 
 
   virtual function void build_phase(uvm_phase phase);
-
-    // realmente no es nombre de instancia 
-
-    // hay otro objeto que se llama config pero este no lo puede ver 
-
-    // aqui estas agarrando la configuracion es dinamico puedes crear agentes observadores o actuadores dependiendo de la configuracion entonces solo escribes una clase que cambia su accion en base a la configuracion que le pasas por medio de la base de datos 
 
     if (!uvm_config_db#(tinyalu_agent_config)::get(this, "", "config", this.config_h))
       `uvm_fatal("AGENT", "Failed to get config object.");
@@ -61,9 +55,22 @@ class tinyalu_agent extends uvm_agent;
 
     this.result_ap = new("result_ap", this);
 
+
   endfunction : build_phase
 
   function void connect_phase(uvm_phase phase);
+
+    if (get_is_active() == UVM_ACTIVE) begin
+
+      tester_h.command_port.connect(command_f.put_export);
+
+      driver_h.command_port.connect(command_f.get_export);
+
+    end
+
+    command_monitor_h.ap.connect(cmd_mon_ap);
+
+    result_monitor_h.ap.connect(result_ap);
 
     result_monitor_h.ap.connect(scoreboard_h.analysis_export);
 
@@ -71,25 +78,7 @@ class tinyalu_agent extends uvm_agent;
 
     command_monitor_h.ap.connect(coverage_h.analysis_export);
 
-    // aqui se conecta de manera diferente 
-
-    tester_h.command_port.connect(command_f.put_export);
-
-    driver_h.command_port.connect(command_f.get_export);
-
   endfunction : connect_phase
-
-  // function void final_phase(uvm_phase phase);
-
-  //   command_monitor_h.ap.debug_connected_to();
-
-  //   result_monitor_h.ap.debug_connected_to();
-
-  // endfunction : final_phase
-
-  function void end_of_elaboration_phase(uvm_phase phase);
-    // scoreboard_h.set_report_verbosity_level_hier(UVM_HIGH);
-  endfunction
 
 
 endclass
