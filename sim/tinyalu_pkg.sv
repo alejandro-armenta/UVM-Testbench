@@ -47,7 +47,17 @@ package tinyalu_pkg;
 
   `include "env.svh"
 
+
+  `include "tinyalu_base_test.svh"
+
   `include "dual_test.svh"
 
 
 endpackage
+
+
+
+
+
+
+

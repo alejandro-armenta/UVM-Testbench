@@ -15,7 +15,7 @@ class tinyalu_agent extends uvm_agent;
   result_monitor result_monitor_h;
 
   driver driver_h;
-  sequencer sequence_h;
+  sequencer sequencer_h;
 
 
   virtual function void build_phase(uvm_phase phase);
@@ -29,9 +29,9 @@ class tinyalu_agent extends uvm_agent;
 
     if (get_is_active() == UVM_ACTIVE) begin
 
-      this.sequence_h = new("sequence_h", this);
+      this.sequencer_h = new("sequencer_h", this);
 
-      this.driver_h   = driver::type_id::create("driver_h", this);
+      this.driver_h = driver::type_id::create("driver_h", this);
 
     end
 
@@ -50,7 +50,7 @@ class tinyalu_agent extends uvm_agent;
     if (get_is_active() == UVM_ACTIVE) begin
 
       // estas mandando desde el sequencer al driver mensajes
-      driver_h.seq_item_port.connect(sequence_h.seq_item_export);
+      driver_h.seq_item_port.connect(sequencer_h.seq_item_export);
 
     end
 
