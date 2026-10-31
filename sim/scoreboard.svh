@@ -7,7 +7,7 @@ class scoreboard extends uvm_subscriber #(result_transaction);
 
   // command monitor sink
 
-  uvm_tlm_analysis_fifo #(command_transaction) cmd_f;
+  uvm_tlm_analysis_fifo #(sequence_item) cmd_f;
 
   function new(string name, uvm_component parent);
 
@@ -16,11 +16,12 @@ class scoreboard extends uvm_subscriber #(result_transaction);
   endfunction : new
 
   function void build_phase(uvm_phase phase);
+
     cmd_f = new("cmd_f", this);
+
   endfunction
 
-  function compare(command_transaction cmd, result_transaction predicted,
-                   result_transaction result);
+  function compare(sequence_item cmd, result_transaction predicted, result_transaction result);
 
     string data_str;
 
@@ -48,7 +49,7 @@ class scoreboard extends uvm_subscriber #(result_transaction);
 
   endfunction : compare
 
-  function result_transaction predict_result(command_transaction cmd);
+  function result_transaction predict_result(sequence_item cmd);
 
     result_transaction predicted;
 

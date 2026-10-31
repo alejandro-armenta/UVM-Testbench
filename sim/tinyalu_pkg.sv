@@ -50,6 +50,8 @@ package tinyalu_pkg;
 
   `include "tinyalu_base_test.svh"
 
+  `include "fibonacci_test.svh"
+
   `include "dual_test.svh"
 
 

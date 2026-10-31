@@ -15,6 +15,7 @@ class tinyalu_agent extends uvm_agent;
   result_monitor result_monitor_h;
 
   driver driver_h;
+
   sequencer sequencer_h;
 
 

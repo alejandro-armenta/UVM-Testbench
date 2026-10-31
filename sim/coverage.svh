@@ -4,7 +4,7 @@
 
 // este tambien es un sink
 
-class coverage extends uvm_subscriber #(command_transaction);
+class coverage extends uvm_subscriber #(sequence_item);
 
   `uvm_component_utils(coverage)
 
