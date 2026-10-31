@@ -19,15 +19,21 @@ package tinyalu_pkg;
 
   `include "sequence_item.svh"
 
-  `include "command_transaction.svh"
+  typedef uvm_sequencer#(sequence_item) sequencer;
 
-  `include "add_transaction.svh"
+
+  `include "fibonacci_sequence.svh"
+  // sequencer sequencer_h;
+
+  // `include "command_transaction.svh"
+
+  // `include "add_transaction.svh"
 
   `include "result_transaction.svh"
 
   `include "coverage.svh"
 
-  `include "tester.svh"
+  // `include "tester.svh"
 
   `include "scoreboard.svh"
 

@@ -59,7 +59,8 @@ interface tinyalu_bfm;
   endtask : reset_alu
 
   // protocol is stimulus
-  task send_op(input byte unsigned iA, input byte unsigned iB, input operation_t iop);
+  task send_op(input byte unsigned iA, input byte unsigned iB, input operation_t iop,
+               output shortint unsigned alu_result);
 
     @(negedge clk);
 
@@ -99,6 +100,8 @@ interface tinyalu_bfm;
         @(posedge done);
 
         start = 0;
+
+        alu_result = result;
 
         @(posedge clk);
 

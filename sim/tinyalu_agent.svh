@@ -8,20 +8,14 @@ class tinyalu_agent extends uvm_agent;
     super.new(name, parent);
   endfunction
 
-  tester tester_h;
-  driver driver_h;
-
   coverage coverage_h;
   scoreboard scoreboard_h;
 
   command_monitor command_monitor_h;
   result_monitor result_monitor_h;
 
-  uvm_tlm_fifo #(command_transaction) command_f;
-
-  uvm_analysis_port #(command_transaction) cmd_mon_ap;
-
-  uvm_analysis_port #(result_transaction) result_ap;
+  driver driver_h;
+  sequencer sequence_h;
 
 
   virtual function void build_phase(uvm_phase phase);
@@ -35,11 +29,9 @@ class tinyalu_agent extends uvm_agent;
 
     if (get_is_active() == UVM_ACTIVE) begin
 
-      this.command_f = new("command_f", this);
+      this.sequence_h = new("sequence_h", this);
 
-      this.tester_h  = tester::type_id::create("tester_h", this);
-
-      this.driver_h  = driver::type_id::create("driver_h", this);
+      this.driver_h   = driver::type_id::create("driver_h", this);
 
     end
 
@@ -51,32 +43,20 @@ class tinyalu_agent extends uvm_agent;
 
     this.result_monitor_h = result_monitor::type_id::create("result_monitor_h", this);
 
-    this.cmd_mon_ap = new("cmd_mon_ap", this);
-
-    this.result_ap = new("result_ap", this);
-
-
   endfunction : build_phase
 
   function void connect_phase(uvm_phase phase);
 
     if (get_is_active() == UVM_ACTIVE) begin
 
-      tester_h.command_port.connect(command_f.put_export);
-
-      driver_h.command_port.connect(command_f.get_export);
+      // estas mandando desde el sequencer al driver mensajes
+      driver_h.seq_item_port.connect(sequence_h.seq_item_export);
 
     end
 
-    command_monitor_h.ap.connect(cmd_mon_ap);
-
-    result_monitor_h.ap.connect(result_ap);
-
-    result_monitor_h.ap.connect(scoreboard_h.analysis_export);
-
-    command_monitor_h.ap.connect(scoreboard_h.cmd_f.analysis_export);
-
     command_monitor_h.ap.connect(coverage_h.analysis_export);
+    command_monitor_h.ap.connect(scoreboard_h.cmd_f.analysis_export);
+    result_monitor_h.ap.connect(scoreboard_h.analysis_export);
 
   endfunction : connect_phase
 
