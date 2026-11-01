@@ -67,6 +67,8 @@ package tinyalu_pkg;
 
   `include "dual_test.svh"
 
+  `include "parallel_test.svh"
+
 
 endpackage
 

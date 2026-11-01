@@ -12,8 +12,6 @@ class sequence_item extends uvm_sequence_item;
 
   rand operation_t   op;
 
-  // este es el resultado no se randomiza
-
   shortint unsigned  result;
 
   constraint op_con {
