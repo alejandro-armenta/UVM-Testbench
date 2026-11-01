@@ -30,7 +30,7 @@ class coverage extends uvm_subscriber #(sequence_item);
 
       bins twoops[] = (add_op => add_op), (and_op => and_op), (xor_op => xor_op), (mul_op => mul_op);
 
-    // bins manymult = (mul_op [* 3: 5]);
+      bins manymult = (mul_op [* 3: 5]);
 
     }
 
