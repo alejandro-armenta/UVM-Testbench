@@ -3,10 +3,7 @@ class result_monitor extends uvm_component;
 
   `uvm_component_utils(result_monitor)
 
-
   tinyalu_agent_config config_h;
-
-  // virtual tinyalu_bfm bfm;
 
   uvm_analysis_port #(result_transaction) ap;
 
@@ -26,8 +23,6 @@ class result_monitor extends uvm_component;
     ap = new("ap", this);
 
   endfunction : build_phase
-
-  // lo configuras para que sea llamado por el bfm
 
   function void write_to_monitor(shortint unsigned r);
 

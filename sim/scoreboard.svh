@@ -70,8 +70,8 @@ class scoreboard extends uvm_subscriber #(result_transaction);
 
   function void write(result_transaction t);
 
-    result_transaction  predicted;
-    command_transaction cmd;
+    result_transaction predicted;
+    sequence_item cmd;
 
     do begin
 

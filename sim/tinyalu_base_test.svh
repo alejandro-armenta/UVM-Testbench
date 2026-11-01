@@ -22,7 +22,7 @@ virtual class tinyalu_base_test extends uvm_test;
 
     // aqui ya esta terminado el agente
 
-    this.sequencer_h = this.env.class_agent_h.sequencer_h;
+    this.sequencer_h = this.env_h.agent_h.sequencer_h;
 
   endfunction
 

@@ -90,7 +90,7 @@ class coverage extends uvm_subscriber #(sequence_item);
 
   endfunction : new
 
-  function void write(command_transaction t);
+  function void write(sequence_item t);
 
     A = t.A;
 

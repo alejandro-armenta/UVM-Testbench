@@ -5,7 +5,7 @@ class command_monitor extends uvm_component;
 
   tinyalu_agent_config config_h;
 
-  uvm_analysis_port #(command_transaction) ap;
+  uvm_analysis_port #(sequence_item) ap;
 
   function new(string name, uvm_component parent);
 
@@ -26,7 +26,7 @@ class command_monitor extends uvm_component;
 
   function void write_to_monitor(byte unsigned A, byte unsigned B, operation_t op);
 
-    command_transaction command;
+    sequence_item command;
 
     command = new("command");
 

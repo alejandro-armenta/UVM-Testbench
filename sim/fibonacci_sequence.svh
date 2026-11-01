@@ -30,24 +30,15 @@ class fibonacci_sequence extends uvm_sequence #(sequence_item);
 
       start_item(command);
 
-      // A + B   result
-      //     A + B
-
       command.A  = n_minus_2;
       command.B  = n_minus_1;
 
       command.op = add_op;
 
-      // this waits until dut is finished and command is written
-      // tienes que ponerlo antes de que se llame item_done()
-      // item_done()
-
       finish_item(command);
 
       n_minus_2 = n_minus_1;
       n_minus_1 = command.result;
-
-      // el resultado esta jalado desde mi dut
 
       `uvm_info("FIBONACCI", $sformatf("Fib(%02d) = %02d", ff, n_minus_1), UVM_MEDIUM)
 
