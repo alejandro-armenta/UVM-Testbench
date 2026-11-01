@@ -13,9 +13,14 @@ package tinyalu_pkg;
     rst_op = 3'b111
   } operation_t;
 
+  // CONIGURATIONS
+
   `include "env_config.svh"
 
   `include "tinyalu_agent_config.svh"
+
+
+  // SEQUENCER
 
   `include "sequence_item.svh"
 
@@ -23,17 +28,20 @@ package tinyalu_pkg;
 
 
   `include "fibonacci_sequence.svh"
-  // sequencer sequencer_h;
 
-  // `include "command_transaction.svh"
+  `include "reset_sequence.svh"
 
-  // `include "add_transaction.svh"
+  `include "maxmult_sequence.svh"
+
+  `include "runall_sequence.svh"
+
+
 
   `include "result_transaction.svh"
 
-  `include "coverage.svh"
+  // STRUCTURE
 
-  // `include "tester.svh"
+  `include "coverage.svh"
 
   `include "scoreboard.svh"
 
@@ -46,7 +54,6 @@ package tinyalu_pkg;
   `include "tinyalu_agent.svh"
 
   `include "env.svh"
-
 
   `include "tinyalu_base_test.svh"
 
