@@ -6,6 +6,8 @@ class runall_sequence extends uvm_sequence #(sequence_item);
 
   maxmult_sequence maxmult_h;
 
+  random_sequence random_h;
+
   sequencer sequencer_h;
 
 
@@ -25,13 +27,19 @@ class runall_sequence extends uvm_sequence #(sequence_item);
 
     this.maxmult_h = maxmult_sequence::type_id::create("maxmult");
 
+    this.random_h  = random_sequence::type_id::create("random");
+
   endfunction
 
   task body();
 
+    // this are in order
+
     this.reset_h.start(this.sequencer_h);
 
-    this.maxmult_h.start(this.sequencer_h);
+    // this.maxmult_h.start(this.sequencer_h);
+
+    this.random_h.start(this.sequencer_h);
 
   endtask
 

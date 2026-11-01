@@ -33,7 +33,11 @@ package tinyalu_pkg;
 
   `include "maxmult_sequence.svh"
 
+  `include "random_sequence.svh"
+
+
   `include "runall_sequence.svh"
+
 
 
 
@@ -58,6 +62,8 @@ package tinyalu_pkg;
   `include "tinyalu_base_test.svh"
 
   `include "fibonacci_test.svh"
+
+  `include "full_test.svh"
 
   `include "dual_test.svh"
 

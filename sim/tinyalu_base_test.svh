@@ -14,6 +14,17 @@ virtual class tinyalu_base_test extends uvm_test;
 
   function void build_phase(uvm_phase phase);
 
+    virtual tinyalu_bfm bfm;
+
+    env_config env_config_h;
+
+    if (!uvm_config_db#(virtual interface tinyalu_bfm)::get(null, "*", "bfm", bfm))
+      `uvm_fatal("DUAL_TEST", "Failed to get class BFM.")
+
+    env_config_h = new(bfm, null);
+
+    uvm_config_db#(env_config)::set(this, "env_h*", "env_config_h", env_config_h);
+
     this.env_h = env::type_id::create("env_h", this);
 
   endfunction
